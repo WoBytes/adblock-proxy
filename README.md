@@ -1,23 +1,25 @@
 
-NodeJS AdBlock Proxy
+AdBlock Proxy
 ====================
 
-NodeJS Proxy for blocking adverts on the interwebz (with support for Adblock Plus filter lists and /etc/hosts files).
-This project aims to make the interwebz even moar awesome!
+The AdBlock Proxy is a proxy that respects your privacy. It is built with lychee.js and node.js
+and will block advertisements and specified hosts off the internet. You can use it as a drop-in
+proxy for HTTP (and in future HTTPS) connections.
+
+This project aims to make the interwebz great again!
 
 
-# Why using a NodeJS based AdBlock Proxy?
+# Features
 
-- It's blazing fast. Seriously, forget other Proxy implementations.
-- It's written in JavaScript !!!!111eleven.
-- A few hours on Facebook, reddit, stackoverflow uses around 15MB amount of memory (whilst having over 20k blocked hosts and urls with n rulesets):
-- If you still don't believe it, get over it and use something else. I don't care.
+Having trouble with exploding memory footprint on
+your Desktop Web Browser and your mobile devices?
 
+Worry no more, the AdBlock Proxy is ready to rescue!
 
-# License
-
-This project is released under the WTFPL.
-See the LICENSE.md for details.
+- Support for Adblock (Plus) Filter Lists
+- Support for Host Files
+- Low Memory Footprint (~32MB)
+- Update-able Filter Lists (via [./bin/do-update.sh](./bin/do-update.sh))
 
 
 # Installation
@@ -25,16 +27,19 @@ See the LICENSE.md for details.
 *Note*: You can change the suggested installation folder to whereever you want to install it.
 Just make sure you change the paths in the bash commands accordingly.
 
-- Download and install the newest available stable release of NodeJS from [nodejs.org](http://nodejs.org).
+- Download and install the **latest** version of [nodejs.org](http://nodejs.org) with ES6+ support.
+- Download this project via the [releases](./releases) section.
+- Extract and navigate to the folder in your Terminal (bash) and execute:
 
-- Download this project via [zip-file](https://github.com/LazerUnicorns/nodejs-adblock-proxy/archive/master.zip) and extract its contents to **/opt/adproxy**.
-
-- Navigate to the folder in your Shell (or PowerShell) and execute:
+Windows users: Use `node.exe ./bin/proxy.js` if you have no Bash available.
 
 ```bash
-cd /opt/adproxy; # change if you used a different folder
-nodejs ./bin/proxy; # will start a proxy on defaulted settings (localhost:8080)
+cd /opt/adblock-proxy; # Change if you used a different folder
+
+./bin/do-update.sh;    # Update filter lists first
+./bin/proxy.sh;        # Start Proxy on default settings (localhost:8080)
 ```
+
 
 # Settings
 
@@ -43,31 +48,29 @@ If you want to use customized parameters, these are the supported parameters and
 - --host=<ip> where *ip* is an IPv4 or IPv6 address (e.g. *192.168.0.1*)
 - --port=<port> where *port* is a valid port number (e.g. *8080*)
 - --public=true will allow using the proxy from other hosts (defaulted). Use --public=false to only allow connections using the given *ip*.
-- --protocol=http will spawn an HTTP based proxy. Supported protocols are *http*, *socks5*.
 
 ```bash
-# Example usage of customized parameters
-nodejs ./bin/proxy --host=192.168.0.1 --port=8080 --public=false --protocol=http
+# Example Usage with customized Settings
+./bin/proxy.sh --host=192.168.0.1 --port=8080 --public=false
 ```
 
 
-# How To Use
+# Usage
 
-Read the [USAGE.md](USAGE.md) file on How to Use.
+Read the [./guides/USAGE.md](./guides/USAGE.md) file.
 It has fancy screenshots and stuff, you'll like it :)
 
+# Configuration
 
-# Features
+All config files are located in the [./config.d](./config.d) folder.
+If you want to use or create an additional filter list, just place it
+there and restart the Proxy.
 
-- HTTP Proxy
-- Host config files support (aka **/etc/hosts**)
-- Adblock Plus filter list support ("without element hiding")
-- Use the *./update.sh* (requires wget) to update all filter lists from predefined sources.
+Remember that the `./bin/do-update.sh` overrides old files when you
+manually changed them. So make sure you work only in non-defaulted filenames.
 
+# License
 
-# Work-in-progress (aka still not working)
-
-- HTTPS Proxy (automatic SSL certificate issueing, maybe via sniffing (aka nulling bug))
-- SOCKS5 Proxy
-- Support for ABP rules with $variable identifiers (requires HTML code parsing, which would slow down proxy)
+The AdBlock Proxy is (c) 2015-2017 Artificial University and
+released under [MIT / Expat](./LICENSE_MIT.txt) license.
 

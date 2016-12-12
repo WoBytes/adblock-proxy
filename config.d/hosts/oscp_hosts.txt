@@ -1,0 +1,11 @@
+
+# These are nagging OSCP host requests
+# which can be used to track you down
+#
+# That basically removes the idea of
+# anonymous HTTPS connections, so they
+# are blocked.
+
+127.0.0.1 oscp.digicert.com
+127.0.0.1 clients1.google.com
+

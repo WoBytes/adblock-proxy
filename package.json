@@ -1,0 +1,31 @@
+{
+  "name": "adblock-proxy",
+  "version": "0.0.1",
+  "description": "Proxy with support for Adblock Plus filter lists and host files",
+  "main": "bin/proxy.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Artificial-University/adblock-proxy.git"
+  },
+  "keywords": [
+    "proxy",
+    "adblock",
+    "filter",
+    "privacy"
+  ],
+  "author": "Artificial-University",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Artificial-University/adblock-proxy/issues"
+  },
+  "homepage": "https://github.com/Artificial-University/adblock-proxy#readme",
+  "dependencies": {
+    "lycheejs": "^2016.3.3"
+  }
+}

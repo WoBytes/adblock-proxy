@@ -35,7 +35,7 @@ Chrome, Chromium and Opera use system-wide settings.
 
 This will open the desktop environment's settings window.
 
-![Chrome Browser Tutorial](./docs/browser-chrome.png)
+![Chrome Browser Tutorial](./browser-chrome.png)
 
 
 ## Firefox
@@ -50,7 +50,7 @@ We recommend to use custom settings, because that allows other applications
 4. In the new Window, select *Manual proxy configuration* and enter details for HTTP Proxy
 5. Click on *OK* Button
 
-![Firefox Browser Tutorial](./docs/browser-firefox.png)
+![Firefox Browser Tutorial](./browser-firefox.png)
 
 
 ## Safari
@@ -64,7 +64,7 @@ Safari uses system-wide settings.
 
 This will open the desktop environment's settings window.
 
-![Safari Browser Tutorial](./docs/browser-safari.png)
+![Safari Browser Tutorial](./browser-safari.png)
 
 
 # Desktop Environments
@@ -77,7 +77,7 @@ This will open the desktop environment's settings window.
 4. Choose *Manual* as Method and enter details for HTTP Proxy
 5. Click on *Apply system wide* Button
 
-![GNOME Tutorial](./docs/desktop-gnome.png)
+![GNOME Tutorial](./desktop-gnome.png)
 
 
 ## XFCE
@@ -94,7 +94,7 @@ HTTP_PROXY=http://127.0.0.1:8080/
 HTTPS_PROXY=http://127.0.0.1:8080/
 ```
 
-![Ubuntu (XFCE) Tutorial](./docs/desktop-xfce.png)
+![Ubuntu (XFCE) Tutorial](./desktop-xfce.png)
 
 
 ## Mac OSX
@@ -107,7 +107,7 @@ HTTPS_PROXY=http://127.0.0.1:8080/
 6. Click on *OK* Button
 7. Click on *Apply* Button
 
-![Mac OSX Tutorial](./docs/desktop-osx.png)
+![Mac OSX Tutorial](./desktop-osx.png)
 
 
 ## Windows XP and Windows 7
@@ -124,5 +124,5 @@ Internet Properties Control Panel.
 6. Click on *OK* Button
 7. Click on *Apply* Button
 
-![Windows XP Tutorial](./docs/desktop-winxp.png)
-![Windows 7 Tutorial](./docs/desktop-win7.png)
+![Windows XP Tutorial](./desktop-winxp.png)
+![Windows 7 Tutorial](./desktop-win7.png)
