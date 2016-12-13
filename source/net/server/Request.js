@@ -73,12 +73,15 @@ lychee.define('app.net.server.Request').tags({
 		let filtered = false;
 		let options  = _url.parse(url);
 
+
 		if (_CONFIG.isBlockedHost(options.host)) {
+
 			filtered = true;
+
 		} else if (_CONFIG.isBlockedLink(options.href)) {
+
 			filtered = true;
-		} else {
-			filtered = false;
+
 		}
 
 
@@ -196,57 +199,47 @@ lychee.define('app.net.server.Request').tags({
 			info = _CACHE.info(path);
 
 
-			if (info !== null) {
+			if (proto === 'http') {
 
-				// TODO: Override cached File
+				_request_http('http://' + url, function(payload) {
 
-				console.error('WHAT THE FUCK', proto, url, headers, info);
-
-			} else {
-
-				if (proto === 'http') {
-
-					_request_http('http://' + url, function(payload) {
-
-						let mime = _MIME[url.split('.').pop()] || null;
-						if (mime === null) {
-							mime = _MIME['html'];
-						}
+					let mime = _MIME[url.split('.').pop()] || null;
+					if (mime === null) {
+						mime = _MIME['html'];
+					}
 
 
-						let headers = null;
+					let headers = null;
 
-						if (payload !== null) {
+					if (payload !== null) {
 
-							_CACHE.write('/' + path, payload);
+						_CACHE.write('/' + path, payload);
 
-							info    = _CACHE.info(path);
-							headers = _get_headers(info, mime);
+						info    = _CACHE.info(path);
+						headers = _get_headers(info, mime);
 
-						} else {
+					} else {
 
-							headers = {
-								'status':       '404 Not Found',
-								'content-type': 'text/plain; charset=utf-8'
-							};
+						headers = {
+							'status':       '404 Not Found',
+							'content-type': 'text/plain; charset=utf-8'
+						};
 
-							payload = 'File blocked by AdBlock Proxy.';
+						payload = 'Request blocked by AdBlock Proxy.';
 
-						}
-
-
-						tunnel.send(payload, headers);
-
-					});
+					}
 
 
-					return true;
+					tunnel.send(payload, headers);
 
-				} else if (proto === 'https') {
+				});
 
-					// TODO: Request HTTPS
 
-				}
+				return true;
+
+			} else if (proto === 'https') {
+
+				// TODO: Request HTTPS
 
 			}
 
