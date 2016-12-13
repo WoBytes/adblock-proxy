@@ -16,9 +16,9 @@ Contributions welcomed.
   - KDE (missing)
   - [XFCE](#ubuntu-xfce)
   - [Mac OS X](#mac-osx)
-  - [Windows XP](#windows-xp)
+  - [Windows XP](#windows-xp-and-windows-7)
   - Windows Vista (missing)
-  - Windows 7 (missing)
+  - [Windows 7](#windows-xp-and-windows-7)
   - Windows 8 (missing)
 
 
