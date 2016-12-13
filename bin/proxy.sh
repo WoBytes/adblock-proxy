@@ -8,7 +8,7 @@ if [ "$PROJECT_NODE" != "" ]; then
 
 	cd $PROJECT_ROOT;
 
-	$PROJECT_NODE ./bin/serve.js $1 $2 $3 $4;
+	$PROJECT_NODE ./bin/proxy.js $1 $2 $3 $4;
 
 fi;
 
