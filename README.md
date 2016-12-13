@@ -1,6 +1,12 @@
 
-AdBlock Proxy
-====================
+# AdBlock Proxy (v0.0.1)
+
+brought to you as libre software with joy and pride by [Artificial Engineering](http://artificial.engineering).
+
+Support our libre Bot Cloud via BTC [1CamMuvrFU1QAMebPoDsL3JrioVDoxezY2](bitcoin:1CamMuvrFU1QAMebPoDsL3JrioVDoxezY2?amount=0.5&label=lychee.js%20Support).
+
+
+## Overview
 
 The AdBlock Proxy is a proxy that respects your privacy. It is built with lychee.js and node.js
 and will block advertisements and specified hosts off the internet. You can use it as a drop-in
@@ -16,9 +22,9 @@ your Desktop Web Browser and your mobile devices?
 
 Worry no more, the AdBlock Proxy is ready to rescue!
 
-- Support for Adblock (Plus) Filter Lists
-- Support for Host Files
-- Low Memory Footprint (~32MB)
+- Support for Adblock (Plus) Filter Lists (via [./config.d/adblockplus](./config.d/adblockplus))
+- Support for Host Files (via [./config.d/hosts](./config.d/hosts))
+- Low Memory Footprint (~32MB in RAM)
 - Update-able Filter Lists (via [./bin/do-update.sh](./bin/do-update.sh))
 
 
@@ -28,7 +34,7 @@ Worry no more, the AdBlock Proxy is ready to rescue!
 Just make sure you change the paths in the bash commands accordingly.
 
 - Download and install the **latest** version of [nodejs.org](http://nodejs.org) with ES6+ support.
-- Download this project via the [releases](./releases) section.
+- Download this project (Green Button on the top right).
 - Extract and navigate to the folder in your Terminal (bash) and execute:
 
 Windows users: Use `node.exe ./bin/proxy.js` if you have no Bash available.
@@ -45,9 +51,9 @@ cd /opt/adblock-proxy; # Change if you used a different folder
 
 If you want to use customized parameters, these are the supported parameters and their functionality:
 
-- --host=<ip> where *ip* is an IPv4 or IPv6 address (e.g. *192.168.0.1*)
-- --port=<port> where *port* is a valid port number (e.g. *8080*)
-- --public=true will allow using the proxy from other hosts (defaulted). Use --public=false to only allow connections using the given *ip*.
+- `--host=<ip>` where `ip` is an IPv4 / IPv6 address or a valid hostname (e.g. `192.168.0.1` or `raspberrypi`).
+- `--port=<port>` where `port` is a valid port number (e.g. `8080`).
+- `--public=true` will allow using the proxy from other hosts (defaulted). Use `--public=false` to only allow connections using the given `ip`.
 
 ```bash
 # Example Usage with customized Settings
