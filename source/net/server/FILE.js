@@ -176,7 +176,7 @@ lychee.define('app.net.server.FILE').tags({
 						_CACHE.read(path, function(payload) {
 
 							if (mime === _MIME['html']) {
-								payload = _filter_payload(path.split('/')[0], payload);
+								payload = _filter_payload(path.split('/')[1], payload);
 							}
 
 							tunnel.send(payload, _get_headers(info, mime));
@@ -194,7 +194,7 @@ lychee.define('app.net.server.FILE').tags({
 					_CACHE.read(path, function(payload) {
 
 						if (mime === _MIME['html']) {
-							payload = _filter_payload(path.split('/')[0], payload);
+							payload = _filter_payload(path.split('/')[1], payload);
 						}
 
 						tunnel.send(payload, _get_headers(info, mime));

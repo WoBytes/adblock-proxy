@@ -5,6 +5,12 @@ lychee.define('app.net.server.API').requires([
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
 	const _CACHE      = new _Filesystem('/settings');
+	const _DEFAULTS   = {
+		css: false,
+		js:  false,
+		img: false,
+		vid: false
+	};
 
 
 
@@ -59,12 +65,7 @@ lychee.define('app.net.server.API').requires([
 
 				} else {
 
-					callback({
-						css: false,
-						js:  false,
-						img: false,
-						vid: false
-					});
+					callback(_DEFAULTS);
 
 				}
 
@@ -72,12 +73,7 @@ lychee.define('app.net.server.API').requires([
 
 		} else {
 
-			callback({
-				css: false,
-				js:  false,
-				img: false,
-				vid: false
-			});
+			callback(_DEFAULTS);
 
 		}
 

@@ -222,13 +222,11 @@ lychee.define('app.net.server.REQUEST').tags({
 
 					if (payload !== null) {
 
-						_CACHE.write('/' + path, payload);
-
+						_CACHE.write(path, payload);
 
 						if (mime === _MIME['html']) {
-							payload = _filter_payload(path.split('/')[0], payload);
+							payload = _filter_payload(path.split('/')[1], payload);
 						}
-
 
 						info    = _CACHE.info(path);
 						headers = _get_headers(info, mime);
