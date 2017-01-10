@@ -32,7 +32,7 @@ lychee.define('app.data.Filesystem').tags({
 	const _create_directory = function(path, mode) {
 
 		if (mode === undefined) {
-			mode = 0777 & (~process.umask());
+			mode = 0o777 & (~process.umask());
 		}
 
 

@@ -1,34 +1,30 @@
 
-lychee.define('app.net.server.Request').tags({
+lychee.define('app.net.server.FILE').tags({
 	platform: 'node'
 }).supports(function(lychee, global) {
 
 	try {
 
-		require('http');
-		require('https');
 		require('url');
 
 		return true;
 
-	} catch(err) {
+	} catch (err) {
 	}
 
 
 	return false;
-
 }).requires([
-	'app.data.Config',
-	'app.data.Filesystem'
+	'app.data.Filesystem',
+	'app.data.Filter',
+	'app.net.server.PUBLIC'
 ]).exports(function(lychee, global, attachments) {
 
-	const _Config     = lychee.import('app.data.Config');
 	const _Filesystem = lychee.import('app.data.Filesystem');
-	const _http       = require('http');
-	const _https      = require('https');
-	const _url        = require('url');
+	const _Filter     = lychee.import('app.data.Filter');
 	const _CACHE      = new _Filesystem('/cache');
-	const _CONFIG     = new _Config('/config.d');
+	const _FILTER     = new _Filter('/settings');
+	const _PUBLIC     = lychee.import('app.net.server.PUBLIC');
 	const _MIME       = {
 		'default':  { binary: true,  type: 'application/octet-stream'      },
 		'appcache': { binary: false, type: 'text/cache-manifest'           },
@@ -65,51 +61,8 @@ lychee.define('app.net.server.Request').tags({
 	 * HELPERS
 	 */
 
-	const _request_https = function() {
-	};
-
-	const _request_http = function(url, callback) {
-
-		let filtered = false;
-		let options  = _url.parse(url);
-
-
-		if (_CONFIG.isBlockedHost(options.host)) {
-
-			filtered = true;
-
-		} else if (_CONFIG.isBlockedLink(options.href)) {
-
-			filtered = true;
-
-		}
-
-
-		if (filtered === false) {
-
-			let request = _http.request(options, function(response) {
-
-				let chunks = [];
-
-				response.on('data', function(chunk) {
-					chunks.push(chunk);
-				});
-
-				response.on('end', function() {
-					callback(Buffer.concat(chunks));
-				});
-
-			});
-
-			request.write('\n');
-			request.end();
-
-		} else {
-
-			callback(null);
-
-		}
-
+	const _filter_payload = function(host, payload) {
+		return _FILTER.process(host, _PUBLIC.get('/index.html'), payload);
 	};
 
 	const _get_headers = function(info, mime) {
@@ -150,7 +103,7 @@ lychee.define('app.net.server.Request').tags({
 		serialize: function() {
 
 			return {
-				'reference': 'app.net.server.Request',
+				'reference': 'app.net.server.FILE',
 				'arguments': []
 			};
 
@@ -168,78 +121,89 @@ lychee.define('app.net.server.Request').tags({
 			let path   = null;
 			let tunnel = this.tunnel;
 			let url    = headers['url'];
-			let proto  = null;
+			let mime   = _MIME[url.split('.').pop()] || null;
 
 
 			if (url.substr(0, 8) === 'https://') {
-				proto = 'https';
-				url   = url.substr(8);
+				url = url.substr(8);
 			} else if (url.substr(0, 7) === 'http://') {
-				proto = 'http';
-				url   = url.substr(7);
+				url = url.substr(7);
 			}
 
 
-			if (url.substr(-1) === '/') {
+			// Directory mode
+			if (mime === null) {
 
-				path = '/' + url + 'index.html';
-
-			} else {
-
-				let tmp = url.split('.').pop();
-				if (tmp.length > 4) {
-					path = '/' + url + '/index.html';
+				if (url.substr(-1) === '/') {
+					path = '/' + url + 'index.html';
 				} else {
-					path = '/' + url;
+					path = '/' + url + '/index.html';
 				}
 
+				mime = _MIME['html'];
+				info = _CACHE.info(path);
+
+				// File mode
+			} else {
+
+				path = '/' + url;
+				info = _CACHE.info(path);
+
 			}
 
 
-			info = _CACHE.info(path);
+			if (info !== null && info.type === 'file') {
 
+				let timestamp = headers['if-modified-since'] || null;
+				if (timestamp !== null) {
 
-			if (proto === 'http') {
+					let diff = info.mtime > new Date(timestamp);
+					if (diff === false) {
 
-				_request_http('http://' + url, function(payload) {
+						console.info('304 for ' + path);
 
-					let mime = _MIME[url.split('.').pop()] || null;
-					if (mime === null) {
-						mime = _MIME['html'];
-					}
+						tunnel.send('', {
+							'status':        '304 Not Modified',
+							'last-modified': info.mtime.toUTCString()
+						});
 
-
-					let headers = null;
-
-					if (payload !== null) {
-
-						_CACHE.write('/' + path, payload);
-
-						info    = _CACHE.info(path);
-						headers = _get_headers(info, mime);
+						return true;
 
 					} else {
 
-						headers = {
-							'status':       '404 Not Found',
-							'content-type': 'text/plain; charset=utf-8'
-						};
+						console.warn('200 for ' + path);
 
-						payload = 'Request blocked by AdBlock Proxy.';
+						_CACHE.read(path, function(payload) {
+
+							if (mime === _MIME['html']) {
+								payload = _filter_payload(path.split('/')[0], payload);
+							}
+
+							tunnel.send(payload, _get_headers(info, mime));
+
+						});
+
+						return true;
 
 					}
 
+				} else {
 
-					tunnel.send(payload, headers);
+					console.warn('200 for ' + path);
 
-				});
+					_CACHE.read(path, function(payload) {
 
+						if (mime === _MIME['html']) {
+							payload = _filter_payload(path.split('/')[0], payload);
+						}
 
-				return true;
+						tunnel.send(payload, _get_headers(info, mime));
 
-			} else if (proto === 'https') {
+					});
 
-				// TODO: Request HTTPS
+					return true;
+
+				}
 
 			}
 

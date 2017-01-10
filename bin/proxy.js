@@ -51,8 +51,11 @@ const _SETTINGS = (function() {
 	'source/net/Remote.js',
 	'source/data/Filesystem.js',
 	'source/data/Config.js',
-	'source/net/server/File.js',
-	'source/net/server/Request.js',
+	'source/data/Filter.js',
+	'source/net/server/API.js',
+	'source/net/server/PUBLIC.js',
+	'source/net/server/FILE.js',
+	'source/net/server/REQUEST.js',
 	'source/net/Server.js'
 ].forEach(function(path, p) {
 

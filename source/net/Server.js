@@ -1,19 +1,29 @@
 
 lychee.define('app.net.Server').requires([
 	'app.net.Remote',
-	'app.net.server.File',
-	'app.net.server.Request'
+	'app.net.server.API',
+	'app.net.server.PUBLIC',
+	'app.net.server.NOPROXY',
+	'app.net.server.FILE',
+	'app.net.server.REQUEST'
 ]).includes([
 	'lychee.net.Server'
 ]).exports(function(lychee, global, attachments) {
 
-	const _File    = lychee.import('app.net.server.File');
+	const _API     = lychee.import('app.net.server.API');
+	const _PUBLIC  = lychee.import('app.net.server.PUBLIC');
+	const _FILE    = lychee.import('app.net.server.FILE');
+	const _NOPROXY = lychee.import('app.net.server.NOPROXY');
 	const _Remote  = lychee.import('app.net.Remote');
-	const _Request = lychee.import('app.net.server.Request');
+	const _REQUEST = lychee.import('app.net.server.REQUEST');
 	const _Server  = lychee.import('lychee.net.Server');
 	const _CODEC   = {
-		encode: function(data) { return data; },
-		decode: function(data) { return data; }
+		encode: function(data) {
+			return data;
+		},
+		decode: function(data) {
+			return data;
+		}
 	};
 
 
@@ -51,23 +61,54 @@ lychee.define('app.net.Server').requires([
 					this.send({}, {
 						'status':                       '200 OK',
 						'access-control-allow-headers': 'Content-Type',
-						'access-control-allow-origin':  'http://localhost',
+						'access-control-allow-origin':  '*',
 						'access-control-allow-methods': 'GET, POST',
 						'access-control-max-age':       '3600'
 					});
 
 				} else {
 
-					let file = _File.receive.call({ tunnel: this }, payload, headers);
-					if (file === false) {
+					let url = headers['url'] || '';
+					if (url.includes('/adblock/api')) {
 
-						let request = _Request.receive.call({ tunnel: this }, payload, headers);
-						if (request === false) {
+						let api = _API.receive.call({ tunnel: this }, payload, headers);
+						if (api === false) {
 
-							this.send('No Network Connection.', {
+							this.send('{ "message": "Not allowed" }', {
+								'status':                       '403 Forbidden',
+								'access-control-allow-origin':  '*',
+								'access-control-allow-methods': 'GET, POST',
+								'content-type':                 'application/json'
+							});
+
+						}
+
+					} else if (url.includes('/adblock/public')) {
+
+						let publik = _PUBLIC.receive.call({ tunnel: this }, payload, headers);
+						if (publik === false) {
+
+							this.send('Invalid CSRF Request.', {
 								'status':       '404 Not Found',
 								'content-type': 'text/plain; charset=utf-8'
 							});
+
+						}
+
+					} else {
+
+						let file = _FILE.receive.call({ tunnel: this }, payload, headers);
+						if (file === false) {
+
+							let request = _REQUEST.receive.call({ tunnel: this }, payload, headers);
+							if (request === false) {
+
+								this.send('No Network Connection.', {
+									'status':       '404 Not Found',
+									'content-type': 'text/plain; charset=utf-8'
+								});
+
+							}
 
 						}
 

@@ -2,4 +2,6 @@
 /lychee.store
 /cache/*
 !/cache/.gitkeep
+/settings/*
+!/settings/.gitkeep
 

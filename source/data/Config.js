@@ -5,12 +5,11 @@ lychee.define('app.data.Config').tags({
 
 	try {
 
-		require('fs');
 		require('path');
 
 		return true;
 
-	} catch(err) {
+	} catch (err) {
 	}
 
 
@@ -21,7 +20,6 @@ lychee.define('app.data.Config').tags({
 ]).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
-	const _fs         = require('fs');
 	const _path       = require('path');
 	const _CACHE      = {};
 	const _ROOT       = lychee.ROOT.project;
@@ -332,6 +330,7 @@ lychee.define('app.data.Config').tags({
 			};
 
 		},
+
 
 
 		/*

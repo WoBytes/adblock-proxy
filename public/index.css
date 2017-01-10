@@ -1,0 +1,147 @@
+
+adblock-wrapper {
+	display: block;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: auto;
+	left: 0px;
+	margin: 0px;
+	padding: 16px;
+	color: #ffffff;
+	background: #222222;
+	border-bottom: 1px solid #888888;
+	user-select: none;
+	z-index: 9000;
+}
+
+adblock-wrapper:before {
+	display: inline-block;
+	position: relative;
+	left: 0px;
+	content: "Proxy Control";
+	font-family: Cantarell;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 32px;
+	vertical-align: top;
+	margin-right: 32px;
+}
+
+adblock-wrapper header {
+	display: inline-block;
+}
+
+adblock-wrapper header fieldset {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	border: 0;
+}
+
+adblock-wrapper fieldset:last-of-type {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+}
+
+
+
+/*
+ * UI
+ */
+
+adblock-wrapper button,
+adblock-wrapper label {
+	display: inline-block;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	font-family: Cantarell;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 32px;
+	perspective: 120px;
+	cursor: pointer;
+	transition: transform 250ms ease-out;
+	user-select: none;
+	vertical-align: top;
+	outline: none;
+}
+
+adblock-wrapper button:before,
+adblock-wrapper input[type="checkbox"] + label:before,
+adblock-wrapper input[type="checkbox"] + label:after {
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	line-height: 32px;
+	content: attr(title);
+	text-align: center;
+	box-sizing: border-box;
+	border-radius: 8px;
+	transition: transform 250ms ease-out;
+	backface-visibility: hidden;
+}
+
+adblock-wrapper button {
+	margin-left: 8px;
+	width: 96px;
+	height: 32px;
+	color: #ffffff;
+	background: transparent;
+	border: 0;
+}
+
+adblock-wrapper button:before {
+	background: #888888;
+	border-radius: 8px;
+	appearance: none;
+}
+
+adblock-wrapper button:hover:before {
+	transform: rotateY(20deg);
+}
+
+adblock-wrapper input[type="checkbox"] {
+	display: none;
+}
+
+adblock-wrapper input[type="checkbox"] + label {
+	margin-right: 8px;
+	width: 64px;
+	height: 32px;
+	color: #ffffff;
+}
+
+adblock-wrapper input[type="checkbox"] + label:before {
+	background: #ff3a19;
+}
+
+adblock-wrapper input[type="checkbox"] + label:after {
+	transform: rotateY(-180deg);
+	background: #02c66f;
+}
+
+adblock-wrapper input[type="checkbox"] + label:hover:before,
+adblock-wrapper input[type="checkbox"] + label:active:before {
+	transform: rotateY(20deg);
+}
+
+adblock-wrapper input[type="checkbox"]:checked + label:hover:after,
+adblock-wrapper input[type="checkbox"]:checked + label:active:after {
+	transform: rotateY(20deg);
+}
+
+adblock-wrapper input[type="checkbox"]:checked + label:before {
+	transform: rotateY(180deg);
+}
+
+adblock-wrapper input[type="checkbox"]:checked + label:after {
+	transform: rotateY(0deg);
+	background: #7fc6a6;
+}
+
