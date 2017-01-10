@@ -130,6 +130,10 @@ lychee.define('app.net.server.FILE').tags({
 				url = url.substr(7);
 			}
 
+			let i1 = url.indexOf('?');
+			if (i1 !== -1) {
+				url = url.substr(0, i1);
+			}
 
 			// Directory mode
 			if (mime === null) {

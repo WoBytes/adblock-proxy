@@ -12,7 +12,7 @@ adblock-wrapper {
 	background: #222222 !important;
 	border-bottom: 1px solid #888888 !important;
 	user-select: none !important;
-	z-index: 9000 !important;
+	z-index: 999999999 !important;
 }
 
 adblock-wrapper:before {

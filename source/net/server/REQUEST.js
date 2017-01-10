@@ -188,6 +188,10 @@ lychee.define('app.net.server.REQUEST').tags({
 				url   = url.substr(7);
 			}
 
+			let i1 = url.indexOf('?');
+			if (i1 !== -1) {
+				url = url.substr(0, i1);
+			}
 
 			if (url.substr(-1) === '/') {
 
@@ -203,6 +207,8 @@ lychee.define('app.net.server.REQUEST').tags({
 				}
 
 			}
+
+
 
 
 			info = _CACHE.info(path);
