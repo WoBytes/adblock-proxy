@@ -356,6 +356,10 @@ lychee.define('app.data.Filter').tags({
 			_filter(settings, body);
 
 
+			head = head.filter(line => line.trim().length > 0);
+			body = body.filter(line => line.trim().length > 0);
+
+
 			template = template.replace('<!-- HEAD -->', head.join('\n'));
 			template = template.replace('<!-- BODY -->', body.join('\n'));
 

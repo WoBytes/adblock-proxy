@@ -79,6 +79,17 @@ lychee.define('app.net.server.FILE').tags({
 		};
 
 
+		// XXX: User Interface Changes will
+		// influence filter algorithm. As the
+		// Browser Cache is uber-aggressive,
+		// this has to stay here.
+
+		if (mime === _MIME['html']) {
+			delete headers['e-tag'];
+			delete headers['last-modified'];
+		}
+
+
 		if (mime.type.substr(0, 4) === 'text') {
 			headers['content-type'] = mime.type + '; charset=utf-8';
 		}
