@@ -40,7 +40,6 @@ lychee.define('app.data.Filter').tags({
 	const _get_settings = function(host) {
 
 		let info = _CACHE.info('/' + host + '.json');
-		console.log(info, host);
 		if (info !== null) {
 
 			let raw  = _CACHE.read('/' + host + '.json');
@@ -200,7 +199,7 @@ lychee.define('app.data.Filter').tags({
 		// Filter Images
 		if (settings.img === false) {
 
-			data.body.forEach(function(line, l) {
+			data.forEach(function(line, l) {
 
 				let i1 = line.indexOf('<img');
 				let i2 = line.indexOf('>', i1);
@@ -340,8 +339,6 @@ lychee.define('app.data.Filter').tags({
 		 */
 
 		process: function(host, inject, payload) {
-
-			console.log('Filter.process', host);
 
 			if (inject === null) {
 				inject = '<!DOCTYPE html><body>';

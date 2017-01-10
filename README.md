@@ -14,6 +14,15 @@ proxy for HTTP (and in future HTTPS) connections.
 
 This project aims to make the interwebz great again!
 
+[![screenshot](./guides/screenshot.png)](https://gfycat.com/EdibleHideousGarpike)
+
+The AdBlock Proxy injects an easy-to-use interface that enables you full control on what content
+is being loaded. Ads and known spyware are *ALWAYS* blocked, but this allows you to load CSS, JS,
+Images and Videos on demand if you choose to do so. By default, only the text-content of the web
+page will be loaded.
+
+[Watch a screencast](https://gfycat.com/EdibleHideousGarpike)
+
 
 # Features
 
