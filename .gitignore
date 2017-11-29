@@ -1,4 +1,6 @@
 
+/package-lock.json
+
 /lychee.store
 /cache/*
 !/cache/.gitkeep
