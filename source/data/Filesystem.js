@@ -10,7 +10,7 @@ lychee.define('app.data.Filesystem').tags({
 
 		return true;
 
-	} catch(err) {
+	} catch (err) {
 
 	}
 
@@ -42,7 +42,7 @@ lychee.define('app.data.Filesystem').tags({
 
 			is_directory = _fs.lstatSync(path).isDirectory();
 
-		} catch(err) {
+		} catch (err) {
 
 			if (err.code === 'ENOENT') {
 
@@ -52,16 +52,14 @@ lychee.define('app.data.Filesystem').tags({
 
 				try {
 					is_directory = _fs.lstatSync(path).isDirectory();
-				} catch(err) {
+				} catch (err) {
 				}
 
 			}
 
-		} finally {
-
-			return is_directory;
-
 		}
+
+		return is_directory;
 
 	};
 
@@ -71,15 +69,20 @@ lychee.define('app.data.Filesystem').tags({
 	 * IMPLEMENTATION
 	 */
 
-	let Composite = function(root) {
+	const Composite = function(data) {
 
-		root = typeof root === 'string' ? root : null;
+		let settings = Object.assign({}, data);
 
+
+		let root = settings.root || null;
 		if (root !== null) {
 			this.root = _path.normalize(_ROOT + _path.normalize(root));
 		} else {
 			this.root = _ROOT;
 		}
+
+
+		settings = null;
 
 	};
 
@@ -94,9 +97,13 @@ lychee.define('app.data.Filesystem').tags({
 
 		serialize: function() {
 
+			let settings = {
+				root: this.root.substr(_ROOT.length)
+			};
+
 			return {
 				'constructor': 'app.data.Filesystem',
-				'arguments':   [ this.root.substr(_ROOT.length) ]
+				'arguments':   [ settings ]
 			};
 
 		},
@@ -157,7 +164,7 @@ lychee.define('app.data.Filesystem').tags({
 
 					return asset;
 
-				} catch(err) {
+				} catch (err) {
 					return null;
 				}
 
@@ -200,7 +207,7 @@ lychee.define('app.data.Filesystem').tags({
 
 				try {
 					return _fs.readdirSync(resolved);
-				} catch(err) {
+				} catch (err) {
 					return [];
 				}
 
@@ -232,7 +239,7 @@ lychee.define('app.data.Filesystem').tags({
 				let data = null;
 				try {
 					data = _fs.readFileSync(resolved);
-				} catch(err) {
+				} catch (err) {
 					data = null;
 				}
 
@@ -242,7 +249,7 @@ lychee.define('app.data.Filesystem').tags({
 
 				try {
 					return _fs.readFileSync(resolved);
-				} catch(err) {
+				} catch (err) {
 					return null;
 				}
 
@@ -253,6 +260,7 @@ lychee.define('app.data.Filesystem').tags({
 		write: function(path, data, callback, scope) {
 
 			path     = typeof path === 'string'     ? path     : null;
+			data     = data !== undefined           ? data     : null;
 			callback = callback instanceof Function ? callback : null;
 			scope    = scope !== undefined          ? scope    : this;
 
@@ -290,7 +298,7 @@ lychee.define('app.data.Filesystem').tags({
 					try {
 						_fs.writeFileSync(resolved, data, encoding);
 						result = true;
-					} catch(err) {
+					} catch (err) {
 						result = false;
 					}
 
@@ -302,7 +310,7 @@ lychee.define('app.data.Filesystem').tags({
 					try {
 						_fs.writeFileSync(resolved, data, encoding);
 						result = true;
-					} catch(err) {
+					} catch (err) {
 						result = false;
 					}
 
@@ -337,7 +345,7 @@ lychee.define('app.data.Filesystem').tags({
 
 				try {
 					stat = _fs.lstatSync(resolved);
-				} catch(err) {
+				} catch (err) {
 					stat = null;
 				}
 

@@ -1,7 +1,12 @@
 
 lychee.define('app.net.server.REQUEST').tags({
 	platform: 'node'
-}).supports(function(lychee, global) {
+}).requires([
+	'app.data.Config',
+	'app.data.Filter',
+	'app.data.Filesystem',
+	'app.net.server.PUBLIC'
+]).supports(function(lychee, global) {
 
 	try {
 
@@ -17,12 +22,7 @@ lychee.define('app.net.server.REQUEST').tags({
 
 	return false;
 
-}).requires([
-	'app.data.Config',
-	'app.data.Filter',
-	'app.data.Filesystem',
-	'app.net.server.PUBLIC'
-]).exports(function(lychee, global, attachments) {
+}).exports(function(lychee, global, attachments) {
 
 	const _Config     = lychee.import('app.data.Config');
 	const _Filesystem = lychee.import('app.data.Filesystem');
@@ -30,9 +30,9 @@ lychee.define('app.net.server.REQUEST').tags({
 	const _http       = require('http');
 	const _https      = require('https');
 	const _url        = require('url');
-	const _CACHE      = new _Filesystem('/cache');
-	const _CONFIG     = new _Config('/config.d');
-	const _FILTER     = new _Filter('/settings');
+	const _CACHE      = new _Filesystem({ root: '/cache' });
+	const _CONFIG     = new _Config({ root: '/config.d' });
+	const _FILTER     = new _Filter({ root: '/settings' });
 	const _PUBLIC     = lychee.import('app.net.server.PUBLIC');
 	const _MIME       = {
 		'default':  { binary: true,  type: 'application/octet-stream'      },
@@ -150,11 +150,13 @@ lychee.define('app.net.server.REQUEST').tags({
 	 * IMPLEMENTATION
 	 */
 
-	let Module = {
+	const Module = {
 
 		/*
 		 * MODULE API
 		 */
+
+		// deserialize: function(blob) {},
 
 		serialize: function() {
 

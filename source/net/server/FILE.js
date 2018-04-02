@@ -1,7 +1,11 @@
 
 lychee.define('app.net.server.FILE').tags({
 	platform: 'node'
-}).supports(function(lychee, global) {
+}).requires([
+	'app.data.Filesystem',
+	'app.data.Filter',
+	'app.net.server.PUBLIC'
+]).supports(function(lychee, global) {
 
 	try {
 
@@ -14,16 +18,12 @@ lychee.define('app.net.server.FILE').tags({
 
 
 	return false;
-}).requires([
-	'app.data.Filesystem',
-	'app.data.Filter',
-	'app.net.server.PUBLIC'
-]).exports(function(lychee, global, attachments) {
+}).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
 	const _Filter     = lychee.import('app.data.Filter');
-	const _CACHE      = new _Filesystem('/cache');
-	const _FILTER     = new _Filter('/settings');
+	const _CACHE      = new _Filesystem({ root: '/cache' });
+	const _FILTER     = new _Filter({ root: '/settings' });
 	const _PUBLIC     = lychee.import('app.net.server.PUBLIC');
 	const _MIME       = {
 		'default':  { binary: true,  type: 'application/octet-stream'      },
@@ -105,11 +105,13 @@ lychee.define('app.net.server.FILE').tags({
 	 * IMPLEMENTATION
 	 */
 
-	let Module = {
+	const Module = {
 
 		/*
 		 * MODULE API
 		 */
+
+		// deserialize: function(blob) {},
 
 		serialize: function() {
 

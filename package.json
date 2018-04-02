@@ -26,6 +26,6 @@
 	},
 	"homepage": "https://github.com/Artificial-University/adblock-proxy#readme",
 	"dependencies": {
-		"lycheejs": "^2017.3.0"
+		"lycheejs": "^2018.1.0"
 	}
 }

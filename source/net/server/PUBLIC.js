@@ -4,7 +4,7 @@ lychee.define('app.net.server.PUBLIC').requires([
 ]).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
-	const _CACHE      = new _Filesystem('/public');
+	const _CACHE      = new _Filesystem({ root: '/public' });
 	const _PAYLOADS   = {};
 	const _MIME       = {
 		'default': { binary: true,  type: 'application/octet-stream' },
@@ -73,11 +73,13 @@ lychee.define('app.net.server.PUBLIC').requires([
 	 * IMPLEMENTATION
 	 */
 
-	let Module = {
+	const Module = {
 
 		/*
 		 * MODULE API
 		 */
+
+		// deserialize: function(blob) {},
 
 		serialize: function() {
 
@@ -96,10 +98,12 @@ lychee.define('app.net.server.PUBLIC').requires([
 
 		get: function(url) {
 
-			let path = url;
+			url = typeof url === 'string' ? url : '';
 
-			if (url.startsWith('/public')) {
-				path = url.substr(7);
+
+			let path = url;
+			if (path.startsWith('/public')) {
+				path = path.substr(7);
 			}
 
 			let payload = _PAYLOADS[path] || null;

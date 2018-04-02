@@ -1,7 +1,9 @@
 
 lychee.define('app.data.Config').tags({
 	platform: 'node'
-}).supports(function(lychee, global) {
+}).requires([
+	'app.data.Filesystem'
+]).supports(function(lychee, global) {
 
 	try {
 
@@ -15,9 +17,7 @@ lychee.define('app.data.Config').tags({
 
 	return false;
 
-}).requires([
-	'app.data.Filesystem'
-]).exports(function(lychee, global, attachments) {
+}).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
 	const _path       = require('path');
@@ -291,25 +291,28 @@ lychee.define('app.data.Config').tags({
 	 * IMPLEMENTATION
 	 */
 
-	let Composite = function(root) {
+	const Composite = function(data) {
 
-		root = typeof root === 'string' ? root : null;
+		let settings = Object.assign({}, data);
 
 
+		let root = settings.root || null;
 		if (root !== null) {
 
-			this.fs   = new _Filesystem(_path.normalize(root));
+			this.fs   = new _Filesystem({ root: _path.normalize(root) });
 			this.root = _path.normalize(_ROOT + _path.normalize(root));
 
 		} else {
 
-			this.fs   = new _Filesystem('/');
+			this.fs   = new _Filesystem({ root: '/' });
 			this.root = _ROOT;
 
 		}
 
 
 		_initialize.call(this);
+
+		settings = null;
 
 	};
 
@@ -324,9 +327,13 @@ lychee.define('app.data.Config').tags({
 
 		serialize: function() {
 
+			let settings = {
+				root: this.root.substr(_ROOT.length)
+			};
+
 			return {
 				'constructor': 'app.data.Config',
-				'arguments':   [ this.root.substr(_ROOT.length) ]
+				'arguments':   [ settings ]
 			};
 
 		},
@@ -339,9 +346,16 @@ lychee.define('app.data.Config').tags({
 
 		isBlockedHost: function(host) {
 
-			let cache = _CACHE[this.root] || null;
-			if (cache !== null) {
-				return cache.hosts.indexOf(host) !== -1;
+			host = typeof host === 'string' ? host : null;
+
+
+			if (host !== null) {
+
+				let cache = _CACHE[this.root] || null;
+				if (cache !== null) {
+					return cache.hosts.indexOf(host) !== -1;
+				}
+
 			}
 
 
@@ -351,25 +365,60 @@ lychee.define('app.data.Config').tags({
 
 		isBlockedLink: function(link) {
 
-			let cache = _CACHE[this.root] || null;
-			if (cache !== null) {
-
-				let blocked = false;
-				let host    = link.split('/')[2] || null;
-				let path    = link.split('/').slice(3).join('/');
+			link = typeof link === 'string' ? link : null;
 
 
-				if (host === null) {
-					return true;
-				}
+			if (link !== null) {
+
+				let cache = _CACHE[this.root] || null;
+				if (cache !== null) {
+
+					let blocked = false;
+					let host    = link.split('/')[2] || null;
+					let path    = link.split('/').slice(3).join('/');
 
 
-				for (let r = 0, rl = cache.rules.length; r < rl; r++) {
+					if (host === null) {
+						return true;
+					}
 
-					let rule = cache.rules[r];
-					if (rule.host !== null) {
 
-						if (host.startsWith(rule.host)) {
+					for (let r = 0, rl = cache.rules.length; r < rl; r++) {
+
+						let rule = cache.rules[r];
+						if (rule.host !== null) {
+
+							if (host.startsWith(rule.host)) {
+
+								if (rule.path !== null) {
+
+									if (path.startsWith(rule.path)) {
+										blocked = true;
+										break;
+									}
+
+								} else if (rule.chunks.length > 0) {
+
+									let chunksvalid = true;
+
+									rule.chunks.forEach(function(val) {
+
+										if (path.indexOf(val) === -1) {
+											chunksvalid = false;
+										}
+
+									});
+
+									if (chunksvalid === true) {
+										blocked = true;
+										break;
+									}
+
+								}
+
+							}
+
+						} else if (rule.host === null) {
 
 							if (rule.path !== null) {
 
@@ -399,40 +448,12 @@ lychee.define('app.data.Config').tags({
 
 						}
 
-					} else if (rule.host === null) {
-
-						if (rule.path !== null) {
-
-							if (path.startsWith(rule.path)) {
-								blocked = true;
-								break;
-							}
-
-						} else if (rule.chunks.length > 0) {
-
-							let chunksvalid = true;
-
-							rule.chunks.forEach(function(val) {
-
-								if (path.indexOf(val) === -1) {
-									chunksvalid = false;
-								}
-
-							});
-
-							if (chunksvalid === true) {
-								blocked = true;
-								break;
-							}
-
-						}
-
 					}
 
+
+					return blocked;
+
 				}
-
-
-				return blocked;
 
 			}
 

@@ -10,7 +10,7 @@ const _SETTINGS = (function() {
 	const args   = process.argv.slice(2).filter(val => val !== '');
 	const host   = args.find(val => /--([host]{4})/g.test(val));
 	const port   = args.find(val => /--([port]{4})/g.test(val));
-	const publik = args.find(val => /--([public]{4})/g.test(val));
+	const publik = args.find(val => /--([public]{6})/g.test(val));
 
 	let settings = {
 		'host':   '127.0.0.1',
@@ -84,19 +84,16 @@ setTimeout(function() {
 		});
 
 
-		console.info('BOOTING UP THE PROXY');
-		console.log('Please wait...');
-		console.info('Connect to http://' + sandbox.MAIN.host + ':' + sandbox.MAIN.port);
+		console.info('adblock-proxy: BOOTING UP THE PROXY');
+		console.info('adblock-proxy: Connect to http://' + sandbox.MAIN.host + ':' + sandbox.MAIN.port);
 
 
 		new lychee.Input({
 			key:         true,
 			keymodifier: true
 		}).bind('escape', function() {
-
 			console.warn('adblock-proxy: [ESC] pressed, exiting ...');
 			process.exit(0);
-
 		}, this);
 
 	});

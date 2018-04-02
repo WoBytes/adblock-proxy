@@ -4,7 +4,7 @@ lychee.define('app.net.server.API').requires([
 ]).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
-	const _CACHE      = new _Filesystem('/settings');
+	const _CACHE      = new _Filesystem({ root: '/settings' });
 	const _DEFAULTS   = {
 		css: false,
 		js:  false,
@@ -98,11 +98,13 @@ lychee.define('app.net.server.API').requires([
 	 * IMPLEMENTATION
 	 */
 
-	let Module = {
+	const Module = {
 
 		/*
 		 * MODULE API
 		 */
+
+		// deserialize: function(blob) {},
 
 		serialize: function() {
 

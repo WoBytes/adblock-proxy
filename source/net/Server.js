@@ -3,7 +3,6 @@ lychee.define('app.net.Server').requires([
 	'app.net.Remote',
 	'app.net.server.API',
 	'app.net.server.PUBLIC',
-	'app.net.server.NOPROXY',
 	'app.net.server.FILE',
 	'app.net.server.REQUEST'
 ]).includes([
@@ -13,7 +12,6 @@ lychee.define('app.net.Server').requires([
 	const _API     = lychee.import('app.net.server.API');
 	const _PUBLIC  = lychee.import('app.net.server.PUBLIC');
 	const _FILE    = lychee.import('app.net.server.FILE');
-	const _NOPROXY = lychee.import('app.net.server.NOPROXY');
 	const _Remote  = lychee.import('app.net.Remote');
 	const _REQUEST = lychee.import('app.net.server.REQUEST');
 	const _Server  = lychee.import('lychee.net.Server');
@@ -32,7 +30,7 @@ lychee.define('app.net.Server').requires([
 	 * IMPLEMENTATION
 	 */
 
-	let Composite = function(data) {
+	const Composite = function(data) {
 
 		let settings = Object.assign({
 			codec:  _CODEC,

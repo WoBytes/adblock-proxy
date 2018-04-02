@@ -1,7 +1,9 @@
 
 lychee.define('app.data.Filter').tags({
 	platform: 'node'
-}).supports(function(lychee, global) {
+}).requires([
+	'app.data.Filesystem'
+]).supports(function(lychee, global) {
 
 	try {
 
@@ -15,13 +17,11 @@ lychee.define('app.data.Filter').tags({
 
 	return false;
 
-}).requires([
-	'app.data.Filesystem'
-]).exports(function(lychee, global, attachments) {
+}).exports(function(lychee, global, attachments) {
 
 	const _Filesystem = lychee.import('app.data.Filesystem');
 	const _path       = require('path');
-	const _CACHE      = new _Filesystem('/settings');
+	const _CACHE      = new _Filesystem({ root: '/settings' });
 	const _ROOT       = lychee.ROOT.project;
 
 
@@ -295,22 +295,26 @@ lychee.define('app.data.Filter').tags({
 	 * IMPLEMENTATION
 	 */
 
-	let Composite = function(root) {
+	const Composite = function(data) {
 
-		root = typeof root === 'string' ? root : null;
+		let settings = Object.assign({}, data);
 
 
+		let root = settings.root || null;
 		if (root !== null) {
 
-			this.fs   = new _Filesystem(_path.normalize(root));
+			this.fs   = new _Filesystem({ root: _path.normalize(root) });
 			this.root = _path.normalize(_ROOT + _path.normalize(root));
 
 		} else {
 
-			this.fs   = new _Filesystem('/');
+			this.fs   = new _Filesystem({ root: '/' });
 			this.root = _ROOT;
 
 		}
+
+
+		settings = null;
 
 	};
 
@@ -325,9 +329,13 @@ lychee.define('app.data.Filter').tags({
 
 		serialize: function() {
 
+			let settings = {
+				root: this.root.substr(_ROOT.length)
+			};
+
 			return {
 				'constructor': 'app.data.Filter',
-				'arguments':   [ this.root.substr(_ROOT.length) ]
+				'arguments':   [ settings ]
 			};
 
 		},
@@ -340,9 +348,9 @@ lychee.define('app.data.Filter').tags({
 
 		process: function(host, inject, payload) {
 
-			if (inject === null) {
-				inject = '<!DOCTYPE html><body>';
-			}
+			host    = typeof host === 'string'  ? host    : null;
+			inject  = inject instanceof Buffer  ? inject  : new Buffer('<!DOCTYPE html><body>', 'utf8');
+			payload = payload instanceof Buffer ? payload : new Buffer('', 'utf8');
 
 
 			let template = inject.toString('utf8');

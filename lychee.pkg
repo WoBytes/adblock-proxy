@@ -1,0 +1,48 @@
+{
+	"api": {},
+	"build": {
+		"environments": {}
+	},
+	"review": {
+		"environments": {}
+	},
+	"source": {
+		"environments": {},
+		"files": {
+			"data": {
+				"Config": [
+					"js"
+				],
+				"Filesystem": [
+					"js"
+				],
+				"Filter": [
+					"js"
+				]
+			},
+			"net": {
+				"Remote": [
+					"js"
+				],
+				"Server": [
+					"js"
+				],
+				"server": {
+					"API": [
+						"js"
+					],
+					"FILE": [
+						"js"
+					],
+					"PUBLIC": [
+						"js"
+					],
+					"REQUEST": [
+						"js"
+					]
+				}
+			}
+		},
+		"tags": {}
+	}
+}
