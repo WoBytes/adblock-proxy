@@ -1,0 +1,152 @@
+{
+	"header": {
+		"identifier": "app.net.Remote",
+		"attaches": {},
+		"tags": {},
+		"requires": [
+			"lychee.codec.BENCODE",
+			"lychee.codec.BITON",
+			"lychee.codec.JSON"
+		],
+		"includes": [
+			"lychee.net.Tunnel"
+		],
+		"supports": {},
+		"type": "Composite"
+	},
+	"memory": {
+		"_Tunnel": {
+			"chunk": "lychee.import('lychee.net.Tunnel')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "lychee.net.Tunnel",
+				"arguments": []
+			}
+		},
+		"_BENCODE": {
+			"chunk": "lychee.import('lychee.codec.BENCODE')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "lychee.codec.BENCODE",
+				"arguments": []
+			}
+		},
+		"_BITON": {
+			"chunk": "lychee.import('lychee.codec.BITON')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "lychee.codec.BITON",
+				"arguments": []
+			}
+		},
+		"_JSON": {
+			"chunk": "lychee.import('lychee.codec.JSON')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "lychee.codec.JSON",
+				"arguments": []
+			}
+		}
+	},
+	"errors": [
+		{
+			"url": "/projects/adblock-proxy/source/net/Remote.js",
+			"rule": "no-parameter-value",
+			"reference": "send",
+			"message": "Invalid parameter values for \"data\" for method \"send()\".",
+			"line": 0,
+			"column": 0
+		}
+	],
+	"result": {
+		"constructor": {
+			"type": "function",
+			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\t_Tunnel.call(this, settings);\n\n\t\tsettings = null;\n\n\t}",
+			"hash": "86b0b9df",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "Object"
+				}
+			]
+		},
+		"settings": {},
+		"properties": {},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\tlet data = _Tunnel.prototype.serialize.call(this);\n\t\t\tdata['constructor'] = 'app.net.Remote';\n\n\n\t\t\treturn data;\n\n\t\t}",
+				"type": "function",
+				"hash": "33d04d23",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'constructor': 'lychee.event.Emitter',\n\t\t\t\t'arguments':   [],\n\t\t\t\t'blob':        Object.keys(blob).length > 0 ? blob : null\n\t\t\t}",
+						"type": "Object",
+						"value": {}
+					}
+				]
+			},
+			"send": {
+				"chunk": "function(data, headers) {\n\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tif (data instanceof Object) {\n\n\t\t\t\theaders['access-control-allow-origin'] = '*';\n\t\t\t\theaders['content-control']             = 'no-transform';\n\n\n\t\t\t\tlet codec = this.codec;\n\t\t\t\tif (codec === _BENCODE) {\n\t\t\t\t\theaders['content-type'] = 'application/bencode; charset=utf-8';\n\t\t\t\t} else if (codec === _BITON) {\n\t\t\t\t\theaders['content-type'] = 'application/biton; charset=binary';\n\t\t\t\t} else if (codec === _JSON) {\n\t\t\t\t\theaders['content-type'] = 'application/json; charset=utf-8';\n\t\t\t\t}\n\n\n\t\t\t\tlet event = headers['event'] || null;\n\t\t\t\tif (event === 'error') {\n\t\t\t\t\theaders['status'] = '400 Bad Request';\n\t\t\t\t}\n\n\n\t\t\t\tif (/@plug|@unplug/g.test(headers.method) === false) {\n\t\t\t\t\treturn _Tunnel.prototype.send.call(this, data, headers);\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\tlet payload = null;\n\n\t\t\t\tif (typeof data === 'string') {\n\t\t\t\t\tpayload = new Buffer(data, 'utf8');\n\t\t\t\t} else if (data instanceof Buffer) {\n\t\t\t\t\tpayload = data;\n\t\t\t\t}\n\n\n\t\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\t\tthis.trigger('send', [ payload, headers ]);\n\n\t\t\t\t\treturn true;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "017f5424",
+				"parameters": [
+					{
+						"chunk": null,
+						"name": "data",
+						"type": "undefined"
+					},
+					{
+						"chunk": "headers instanceof Object ? headers : {}",
+						"name": "headers",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					},
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					}
+				]
+			}
+		}
+	}
+}

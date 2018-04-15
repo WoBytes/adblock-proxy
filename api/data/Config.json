@@ -1,0 +1,214 @@
+{
+	"header": {
+		"identifier": "app.data.Config",
+		"attaches": {},
+		"tags": {
+			"platform": "node"
+		},
+		"requires": [
+			"app.data.Filesystem"
+		],
+		"includes": [],
+		"supports": {
+			"body": "function(lychee, global) {\n\n\ttry {\n\n\t\trequire('path');\n\n\t\treturn true;\n\n\t} catch (err) {\n\t}\n\n\n\treturn false;\n\n}",
+			"hash": "5c203666",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "lychee",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "global",
+					"type": "undefined"
+				}
+			]
+		},
+		"type": "Composite"
+	},
+	"memory": {
+		"_Filesystem": {
+			"chunk": "lychee.import('app.data.Filesystem')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filesystem",
+				"arguments": []
+			}
+		},
+		"_path": {
+			"chunk": "require('path')",
+			"type": "undefined"
+		},
+		"_CACHE": {
+			"chunk": "{}",
+			"type": "Object",
+			"value": {}
+		},
+		"_ROOT": {
+			"chunk": "lychee.ROOT.project",
+			"type": "undefined"
+		},
+		"_initialize": {
+			"chunk": "function() {\n\n\t\tlet fs    = this.fs;\n\t\tlet root  = this.root;\n\t\tlet cache = _CACHE[root] || null;\n\t\tif (cache === null) {\n\n\t\t\tcache = _CACHE[root] = {\n\t\t\t\thosts: [],\n\t\t\t\trules: []\n\t\t\t};\n\n\t\t}\n\n\n\t\tfs.dir('/hosts', function(files) {\n\n\t\t\tfiles.filter(function(file) {\n\t\t\t\treturn file.substr(0, 1) !== '.';\n\t\t\t}).forEach(function(file) {\n\n\t\t\t\tfs.read('/hosts/' + file, function(buffer) {\n\t\t\t\t\t_parse_hosts(cache, buffer);\n\t\t\t\t});\n\n\t\t\t});\n\n\t\t});\n\n\t\tfs.dir('/adblockplus', function(files) {\n\n\t\t\tfiles.filter(function(file) {\n\t\t\t\treturn file.substr(0, 1) !== '.';\n\t\t\t}).forEach(function(file) {\n\n\t\t\t\tfs.read('/adblockplus/' + file, function(buffer) {\n\t\t\t\t\t_parse_adblockplus(cache, buffer);\n\t\t\t\t});\n\n\t\t\t});\n\n\t\t});\n\n\t}",
+			"type": "function",
+			"hash": "9814ae06",
+			"parameters": [],
+			"values": []
+		},
+		"_ADBLOCK_VARIABLES": {
+			"chunk": "undefined",
+			"type": "undefined"
+		},
+		"_parse_adblockplus": {
+			"chunk": "function(cache, buffer) {\n\n\t\tbuffer = buffer.toString('utf8').split('\\n').map(function(line) {\n\n\t\t\tline = line.trim();\n\n\t\t\tfor (let a = 0, al = _ADBLOCK_VARIABLES.length; a < al; a++) {\n\n\t\t\t\tlet variable = _ADBLOCK_VARIABLES[a];\n\t\t\t\tif (line.includes(variable)) {\n\t\t\t\t\treturn line.split(variable)[0];\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t\treturn line;\n\n\t\t});\n\n\n\t\tbuffer.filter(function(line) {\n\t\t\treturn line.indexOf('$') === -1 && line.indexOf('#') === -1 && line.indexOf('^') === -1;\n\t\t}).filter(function(line) {\n\t\t\t// Filter out Metadata \"[ Whatever ]\"\n\t\t\t// Filter out Comments \"! Whatever\"\n\t\t\treturn /(\\[|!)/g.test(line.substr(0, 1));\n\t\t}).forEach(function(line) {\n\n\t\t\tlet data = {\n\t\t\t\thost:   null,\n\t\t\t\tpath:   null,\n\t\t\t\tchunks: []\n\t\t\t};\n\n\t\t\tif (line.startsWith('@@||')) {\n\n\t\t\t\tlet tmp1 = line.substr(4).split('/');\n\t\t\t\tlet host = tmp1[0];\n\t\t\t\tlet path = tmp1.slice(1).join('/');\n\n\t\t\t\tlet i1 = host.indexOf('*');\n\t\t\t\tif (i1 !== -1) {\n\t\t\t\t\thost = host.substr(0, i1);\n\t\t\t\t}\n\n\n\t\t\t\tlet i2 = path.indexOf('*');\n\t\t\t\tif (i2 !== -1) {\n\n\t\t\t\t\tlet chunks = path.split('*').map(function(val) {\n\t\t\t\t\t\treturn val.trim();\n\t\t\t\t\t}).filter(function(val) {\n\t\t\t\t\t\treturn val.length > 0;\n\t\t\t\t\t});\n\n\t\t\t\t\tif (chunks.length > 1) {\n\n\t\t\t\t\t\tdata.host   = host;\n\t\t\t\t\t\tdata.chunks = chunks;\n\n\t\t\t\t\t} else {\n\n\t\t\t\t\t\tdata.host   = host;\n\t\t\t\t\t\tdata.path   = chunks[0];\n\n\t\t\t\t\t}\n\n\t\t\t\t} else {\n\n\t\t\t\t\tdata.host = host;\n\t\t\t\t\tdata.path = path;\n\n\t\t\t\t}\n\n\n\t\t\t\tcache.rules.push(data);\n\n\t\t\t} else if (line.startsWith('||')) {\n\n\t\t\t\tlet tmp1 = line.substr(2).split('/');\n\t\t\t\tlet host = tmp1[0];\n\t\t\t\tlet path = tmp1.slice(1).join('/');\n\n\t\t\t\tdata.host = host;\n\t\t\t\tdata.path = path;\n\n\t\t\t\tcache.rules.push(data);\n\n\t\t\t} else if (line.startsWith('@@')) {\n\n\t\t\t\tlet path = line.substr(2);\n\n\n\t\t\t\tlet i1 = path.indexOf('*');\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tlet chunks = path.split('*').map(function(val) {\n\t\t\t\t\t\treturn val.trim();\n\t\t\t\t\t}).filter(function(val) {\n\t\t\t\t\t\treturn val.length > 0;\n\t\t\t\t\t});\n\n\t\t\t\t\tif (chunks.length > 1) {\n\t\t\t\t\t\tdata.chunks = chunks;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tdata.path = chunks[0];\n\t\t\t\t\t}\n\n\t\t\t\t} else {\n\n\t\t\t\t\tdata.path = path;\n\n\t\t\t\t}\n\n\n\t\t\t\tcache.rules.push(data);\n\n\t\t\t} else {\n\n\t\t\t\tlet i1 = line.indexOf('*');\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tlet chunks = line.split('*').map(function(val) {\n\t\t\t\t\t\treturn val.trim();\n\t\t\t\t\t}).filter(function(val) {\n\t\t\t\t\t\treturn val.length > 0;\n\t\t\t\t\t});\n\n\t\t\t\t\tif (chunks.length > 1) {\n\t\t\t\t\t\tdata.chunks = chunks;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tdata.path = chunks[0];\n\t\t\t\t\t}\n\n\t\t\t\t\tcache.rules.push(data);\n\n\t\t\t\t} else {\n\n\t\t\t\t\tdata.chunks = [ line ];\n\t\t\t\t\tcache.rules.push(data);\n\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t});\n\n\n\t\tcache.rules.forEach(function(rule) {\n\n\t\t\tif (rule.host !== null) {\n\n\t\t\t\tif (rule.host.endsWith('^')) {\n\t\t\t\t\trule.host = rule.host.substr(0, rule.host.length - 1);\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t});\n\n\t}",
+			"type": "function",
+			"hash": "c11239f7",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "cache",
+					"type": "undefined"
+				},
+				{
+					"chunk": "buffer.toString('utf8').split('\\n').map(function(line) {",
+					"name": "buffer",
+					"type": "String",
+					"value": "<string>"
+				}
+			],
+			"values": []
+		},
+		"_parse_hosts": {
+			"chunk": "function(cache, buffer) {\n\n\t\tbuffer.toString('utf8').split('\\n').map(function(line) {\n\t\t\treturn line.trim();\n\t\t}).filter(function(line) {\n\t\t\treturn line.substr(0, 1) !== '#';\n\t\t}).map(function(line) {\n\n\t\t\tlet tmp = line.split(/\\s/g);\n\t\t\tif (tmp[0] === '127.0.0.1' || tmp[0] === '0.0.0.0') {\n\t\t\t\treturn tmp[1];\n\t\t\t} else {\n\t\t\t\treturn null;\n\t\t\t}\n\n\t\t}).filter(function(host) {\n\t\t\treturn host !== null && host !== 'localhost';\n\t\t}).forEach(function(host) {\n\t\t\tcache.hosts.push(host);\n\t\t});\n\n\t}",
+			"type": "function",
+			"hash": "e6e7e986",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "cache",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "buffer",
+					"type": "undefined"
+				}
+			],
+			"values": []
+		}
+	},
+	"errors": [],
+	"result": {
+		"constructor": {
+			"type": "function",
+			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\tlet root = settings.root || null;\n\t\tif (root !== null) {\n\n\t\t\tthis.fs   = new _Filesystem({ root: _path.normalize(root) });\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\n\t\t} else {\n\n\t\t\tthis.fs   = new _Filesystem({ root: '/' });\n\t\t\tthis.root = _ROOT;\n\n\t\t}\n\n\n\t\t_initialize.call(this);\n\n\t\tsettings = null;\n\n\t}",
+			"hash": "d70ea5d4",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "Object"
+				}
+			]
+		},
+		"settings": {},
+		"properties": {
+			"fs": {
+				"chunk": "this.fs   = new _Filesystem({ root: _path.normalize(root) });",
+				"value": {
+					"chunk": "new _Filesystem({ root: _path.normalize(root) })",
+					"type": "_Filesystem"
+				}
+			},
+			"root": {
+				"chunk": "this.root = _path.normalize(_ROOT + _path.normalize(root));",
+				"value": {
+					"chunk": "_path.normalize(_ROOT + _path.normalize(root))",
+					"type": "Number",
+					"value": 1337
+				}
+			}
+		},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\tlet settings = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Config',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "191c2fa1",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'constructor': 'app.data.Config',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t}",
+						"type": "Object",
+						"value": {}
+					}
+				]
+			},
+			"isBlockedHost": {
+				"chunk": "function(host) {\n\n\t\t\thost = typeof host === 'string' ? host : null;\n\n\n\t\t\tif (host !== null) {\n\n\t\t\t\tlet cache = _CACHE[this.root] || null;\n\t\t\t\tif (cache !== null) {\n\t\t\t\t\treturn cache.hosts.indexOf(host) !== -1;\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "38f98d90",
+				"parameters": [
+					{
+						"chunk": "typeof host === 'string' ? host : null",
+						"name": "host",
+						"type": "String",
+						"value": null
+					}
+				],
+				"values": [
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					}
+				]
+			},
+			"isBlockedLink": {
+				"chunk": "function(link) {\n\n\t\t\tlink = typeof link === 'string' ? link : null;\n\n\n\t\t\tif (link !== null) {\n\n\t\t\t\tlet cache = _CACHE[this.root] || null;\n\t\t\t\tif (cache !== null) {\n\n\t\t\t\t\tlet blocked = false;\n\t\t\t\t\tlet host    = link.split('/')[2] || null;\n\t\t\t\t\tlet path    = link.split('/').slice(3).join('/');\n\n\n\t\t\t\t\tif (host === null) {\n\t\t\t\t\t\treturn true;\n\t\t\t\t\t}\n\n\n\t\t\t\t\tfor (let r = 0, rl = cache.rules.length; r < rl; r++) {\n\n\t\t\t\t\t\tlet rule = cache.rules[r];\n\t\t\t\t\t\tif (rule.host !== null) {\n\n\t\t\t\t\t\t\tif (host.startsWith(rule.host)) {\n\n\t\t\t\t\t\t\t\tif (rule.path !== null) {\n\n\t\t\t\t\t\t\t\t\tif (path.startsWith(rule.path)) {\n\t\t\t\t\t\t\t\t\t\tblocked = true;\n\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t\t} else if (rule.chunks.length > 0) {\n\n\t\t\t\t\t\t\t\t\tlet chunksvalid = true;\n\n\t\t\t\t\t\t\t\t\trule.chunks.forEach(function(val) {\n\n\t\t\t\t\t\t\t\t\t\tif (path.indexOf(val) === -1) {\n\t\t\t\t\t\t\t\t\t\t\tchunksvalid = false;\n\t\t\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t\t\tif (chunksvalid === true) {\n\t\t\t\t\t\t\t\t\t\tblocked = true;\n\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t} else if (rule.host === null) {\n\n\t\t\t\t\t\t\tif (rule.path !== null) {\n\n\t\t\t\t\t\t\t\tif (path.startsWith(rule.path)) {\n\t\t\t\t\t\t\t\t\tblocked = true;\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t} else if (rule.chunks.length > 0) {\n\n\t\t\t\t\t\t\t\tlet chunksvalid = true;\n\n\t\t\t\t\t\t\t\trule.chunks.forEach(function(val) {\n\n\t\t\t\t\t\t\t\t\tif (path.indexOf(val) === -1) {\n\t\t\t\t\t\t\t\t\t\tchunksvalid = false;\n\t\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t\tif (chunksvalid === true) {\n\t\t\t\t\t\t\t\t\tblocked = true;\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t}\n\n\n\t\t\t\t\treturn blocked;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "e46da598",
+				"parameters": [
+					{
+						"chunk": "typeof link === 'string' ? link : null",
+						"name": "link",
+						"type": "String",
+						"value": null
+					}
+				],
+				"values": [
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					}
+				]
+			}
+		}
+	}
+}

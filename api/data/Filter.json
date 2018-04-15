@@ -1,0 +1,246 @@
+{
+	"header": {
+		"identifier": "app.data.Filter",
+		"attaches": {},
+		"tags": {
+			"platform": "node"
+		},
+		"requires": [
+			"app.data.Filesystem"
+		],
+		"includes": [],
+		"supports": {
+			"body": "function(lychee, global) {\n\n\ttry {\n\n\t\trequire('path');\n\n\t\treturn true;\n\n\t} catch (err) {\n\t}\n\n\n\treturn false;\n\n}",
+			"hash": "5c203666",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "lychee",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "global",
+					"type": "undefined"
+				}
+			]
+		},
+		"type": "Composite"
+	},
+	"memory": {
+		"_Filesystem": {
+			"chunk": "lychee.import('app.data.Filesystem')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filesystem",
+				"arguments": []
+			}
+		},
+		"_path": {
+			"chunk": "require('path')",
+			"type": "undefined"
+		},
+		"_CACHE": {
+			"chunk": "new _Filesystem({ root: '/settings' })",
+			"type": "_Filesystem",
+			"value": {
+				"root": "/settings"
+			}
+		},
+		"_ROOT": {
+			"chunk": "lychee.ROOT.project",
+			"type": "undefined"
+		},
+		"_DEFAULTS": {
+			"chunk": "{\n\t\tcss: false,\n\t\tjs:  false,\n\t\timg: false,\n\t\tvid: false\n\t}",
+			"type": "Object",
+			"value": {
+				"css": false,
+				"js": false,
+				"img": false,
+				"vid": false
+			}
+		},
+		"_get_settings": {
+			"chunk": "function(host) {\n\n\t\tlet info = _CACHE.info('/' + host + '.json');\n\t\tif (info !== null) {\n\n\t\t\tlet raw  = _CACHE.read('/' + host + '.json');\n\t\t\tlet data = null;\n\n\t\t\ttry {\n\t\t\t\tdata = JSON.parse(raw.toString('utf8'));\n\t\t\t} catch (err) {\n\t\t\t}\n\n\t\t\tif (data !== null) {\n\t\t\t\treturn Object.assign({}, _DEFAULTS, data);\n\t\t\t}\n\n\t\t}\n\n\n\t\treturn _DEFAULTS;\n\n\t}",
+			"type": "function",
+			"hash": "b5f86777",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "host",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "_DEFAULTS",
+					"type": "undefined"
+				}
+			]
+		},
+		"_get_head": {
+			"chunk": "function(content) {\n\n\t\tlet i1 = content.indexOf('<head');\n\t\tlet i2 = content.indexOf('</head', i1);\n\t\tlet i3 = content.indexOf('>', i1);\n\n\t\tif (i1 !== -1 && i2 !== -1) {\n\t\t\treturn content.substr(i3 + 1, i2 - i3 - 1).split('\\n');\n\t\t}\n\n\t\t// TODO: Filter returned array and allow only <script>\n\t\t// and <link rel=\"stylesheet\">\n\t\t// AND <style>...</style>\n\n\t\treturn [];\n\n\t}",
+			"type": "function",
+			"hash": "ca98d15a",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "content",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "content.substr(i3 + 1, i2 - i3 - 1).split('\\n')",
+					"type": "String",
+					"value": "<string>"
+				},
+				{
+					"chunk": "[]",
+					"type": "Array",
+					"value": []
+				}
+			]
+		},
+		"_get_body": {
+			"chunk": "function(content) {\n\n\t\tlet i1 = content.indexOf('<body');\n\t\tlet i2 = content.indexOf('</body>', i1);\n\t\tlet i3 = content.indexOf('>', i1);\n\n\t\tif (i1 !== -1 && i2 !== -1) {\n\t\t\treturn content.substr(i3 + 1, i2 - i3 - 1).split('\\n');\n\t\t}\n\n\t\treturn [];\n\n\t}",
+			"type": "function",
+			"hash": "0eebc0ce",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "content",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "content.substr(i3 + 1, i2 - i3 - 1).split('\\n')",
+					"type": "String",
+					"value": "<string>"
+				},
+				{
+					"chunk": "[]",
+					"type": "Array",
+					"value": []
+				}
+			]
+		},
+		"_filter": {
+			"chunk": "function(settings, data) {\n\n\t\tlet last_css = -1;\n\t\tlet last_js  = -1;\n\t\tlet last_img = -1;\n\t\tlet last_vid = -1;\n\n\n\t\tif (settings.css === false) {\n\n\t\t\tdata.forEach(function(line, l) {\n\n\t\t\t\tlet i1 = line.indexOf('<link');\n\t\t\t\tlet i2 = line.indexOf('>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 9);\n\t\t\t\t\ti1   = line.indexOf('<link');\n\t\t\t\t\ti2   = line.indexOf('>', i1);\n\n\t\t\t\t}\n\n\t\t\t\tdata[l] = line;\n\n\t\t\t});\n\n\n\t\t\tdata.forEach(function(line, l) {\n\n\t\t\t\tlet i1 = line.indexOf('<style');\n\t\t\t\tlet i2 = line.indexOf('</style>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 8);\n\t\t\t\t\ti1   = line.indexOf('<style');\n\t\t\t\t\ti2   = line.indexOf('</style>', i1);\n\n\t\t\t\t}\n\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1);\n\t\t\t\t\tlast_css = l;\n\n\t\t\t\t} else if (i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(i2 + 9);\n\t\t\t\t\tlast_css = -1;\n\n\t\t\t\t} else if (last_css !== -1) {\n\n\t\t\t\t\tline = '';\n\n\t\t\t\t}\n\n\t\t\t\tdata[l] = line;\n\n\t\t\t});\n\n\t\t}\n\n\n\t\t// Filter JS\n\t\tif (settings.js === false) {\n\n\t\t\tdata.forEach(function(line, l) {\n\n\t\t\t\tlet i1 = line.indexOf('<script');\n\t\t\t\tlet i2 = line.indexOf('</script>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 9);\n\t\t\t\t\ti1   = line.indexOf('<script');\n\t\t\t\t\ti2   = line.indexOf('</script>');\n\n\t\t\t\t}\n\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1);\n\t\t\t\t\tlast_js = l;\n\n\t\t\t\t} else if (i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(i2 + 9);\n\t\t\t\t\tlast_js = -1;\n\n\t\t\t\t} else if (last_js !== -1) {\n\n\t\t\t\t\tline = '';\n\n\t\t\t\t}\n\n\t\t\t\tdata[l] = line;\n\n\t\t\t});\n\n\t\t}\n\n\n\t\t// Filter Images\n\t\tif (settings.img === false) {\n\n\t\t\tdata.forEach(function(line, l) {\n\n\t\t\t\tlet i1 = line.indexOf('<img');\n\t\t\t\tlet i2 = line.indexOf('>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 1);\n\t\t\t\t\ti1   = line.indexOf('<img');\n\t\t\t\t\ti2   = line.indexOf('>', i1);\n\n\t\t\t\t}\n\n\n\t\t\t\ti1 = line.indexOf('<svg');\n\t\t\t\ti2 = line.indexOf('</svg>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 6);\n\t\t\t\t\ti1   = line.indexOf('<svg');\n\t\t\t\t\ti2   = line.indexOf('</svg>', i1);\n\n\t\t\t\t}\n\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1);\n\t\t\t\t\tlast_img = l;\n\n\t\t\t\t} else if (i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(i2 + 8);\n\t\t\t\t\tlast_img = -1;\n\n\t\t\t\t} else if (last_img !== -1) {\n\n\t\t\t\t\tline = '';\n\n\t\t\t\t}\n\n\n\t\t\t\tdata[l] = line;\n\n\t\t\t});\n\n\t\t}\n\n\n\t\t// Filter Videos\n\t\tif (settings.vid === false) {\n\n\t\t\tdata.forEach(function(line, l) {\n\n\t\t\t\tlet i1 = line.indexOf('<video');\n\t\t\t\tlet i2 = line.indexOf('</video>', i1);\n\n\t\t\t\twhile (i1 !== -1 && i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1) + line.substr(i2 + 8);\n\t\t\t\t\ti1   = line.indexOf('<video');\n\t\t\t\t\ti2   = line.indexOf('</video>', i1);\n\n\t\t\t\t}\n\n\t\t\t\tif (i1 !== -1) {\n\n\t\t\t\t\tline = line.substr(0, i1);\n\t\t\t\t\tlast_vid = l;\n\n\t\t\t\t} else if (i2 !== -1) {\n\n\t\t\t\t\tline = line.substr(i2 + 8);\n\t\t\t\t\tlast_vid = -1;\n\n\t\t\t\t} else if (last_vid !== -1) {\n\n\t\t\t\t\tline = '';\n\n\t\t\t\t}\n\n\n\t\t\t\tdata[l] = line;\n\n\t\t\t});\n\n\t\t}\n\n\t}",
+			"type": "function",
+			"hash": "865b5674",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "settings",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "undefined"
+				}
+			],
+			"values": []
+		}
+	},
+	"errors": [],
+	"result": {
+		"constructor": {
+			"type": "function",
+			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\tlet root = settings.root || null;\n\t\tif (root !== null) {\n\n\t\t\tthis.fs   = new _Filesystem({ root: _path.normalize(root) });\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\n\t\t} else {\n\n\t\t\tthis.fs   = new _Filesystem({ root: '/' });\n\t\t\tthis.root = _ROOT;\n\n\t\t}\n\n\n\t\tsettings = null;\n\n\t}",
+			"hash": "0fa62587",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "Object"
+				}
+			]
+		},
+		"settings": {},
+		"properties": {
+			"fs": {
+				"chunk": "this.fs   = new _Filesystem({ root: _path.normalize(root) });",
+				"value": {
+					"chunk": "new _Filesystem({ root: _path.normalize(root) })",
+					"type": "_Filesystem"
+				}
+			},
+			"root": {
+				"chunk": "this.root = _path.normalize(_ROOT + _path.normalize(root));",
+				"value": {
+					"chunk": "_path.normalize(_ROOT + _path.normalize(root))",
+					"type": "Number",
+					"value": 1337
+				}
+			}
+		},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\tlet settings = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "ec3e2711",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t}",
+						"type": "Object",
+						"value": {}
+					}
+				]
+			},
+			"process": {
+				"chunk": "function(host, inject, payload) {\n\n\t\t\thost    = typeof host === 'string'  ? host    : null;\n\t\t\tinject  = inject instanceof Buffer  ? inject  : new Buffer('<!DOCTYPE html><body>', 'utf8');\n\t\t\tpayload = payload instanceof Buffer ? payload : new Buffer('', 'utf8');\n\n\n\t\t\tlet template = inject.toString('utf8');\n\t\t\tlet settings = _get_settings(host);\n\n\t\t\tlet head = _get_head(payload.toString('utf8'));\n\t\t\tlet body = _get_body(payload.toString('utf8'));\n\n\n\t\t\t_filter(settings, head);\n\t\t\t_filter(settings, body);\n\n\n\t\t\thead = head.filter(line => line.trim().length > 0);\n\t\t\tbody = body.filter(line => line.trim().length > 0);\n\n\n\t\t\ttemplate = template.replace('<!-- HEAD -->', head.join('\\n'));\n\t\t\ttemplate = template.replace('<!-- BODY -->', body.join('\\n'));\n\n\n\t\t\treturn new Buffer(template, 'utf8');\n\n\t\t}",
+				"type": "function",
+				"hash": "65873b82",
+				"parameters": [
+					{
+						"chunk": "typeof host === 'string'  ? host    : null",
+						"name": "host",
+						"type": "String",
+						"value": null
+					},
+					{
+						"chunk": "inject instanceof Buffer  ? inject  : new Buffer('<!DOCTYPE html><body>', 'utf8')",
+						"name": "inject",
+						"type": "Buffer"
+					},
+					{
+						"chunk": "payload instanceof Buffer ? payload : new Buffer('', 'utf8')",
+						"name": "payload",
+						"type": "Buffer"
+					}
+				],
+				"values": [
+					{
+						"chunk": "new Buffer(template, 'utf8')",
+						"type": "Buffer"
+					}
+				]
+			}
+		}
+	}
+}

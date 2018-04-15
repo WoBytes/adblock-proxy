@@ -1,0 +1,347 @@
+{
+	"header": {
+		"identifier": "app.net.server.REQUEST",
+		"attaches": {},
+		"tags": {
+			"platform": "node"
+		},
+		"requires": [
+			"app.data.Config",
+			"app.data.Filter",
+			"app.data.Filesystem",
+			"app.net.server.PUBLIC"
+		],
+		"includes": [],
+		"supports": {
+			"body": "function(lychee, global) {\n\n\ttry {\n\n\t\trequire('http');\n\t\trequire('https');\n\t\trequire('url');\n\n\t\treturn true;\n\n\t} catch (err) {\n\t}\n\n\n\treturn false;\n\n}",
+			"hash": "fec19d9f",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "lychee",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "global",
+					"type": "undefined"
+				}
+			]
+		},
+		"type": "Module"
+	},
+	"memory": {
+		"_Config": {
+			"chunk": "lychee.import('app.data.Config')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Config",
+				"arguments": []
+			}
+		},
+		"_Filesystem": {
+			"chunk": "lychee.import('app.data.Filesystem')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filesystem",
+				"arguments": []
+			}
+		},
+		"_Filter": {
+			"chunk": "lychee.import('app.data.Filter')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filter",
+				"arguments": []
+			}
+		},
+		"_http": {
+			"chunk": "require('http')",
+			"type": "undefined"
+		},
+		"_https": {
+			"chunk": "require('https')",
+			"type": "undefined"
+		},
+		"_url": {
+			"chunk": "require('url')",
+			"type": "undefined"
+		},
+		"_CACHE": {
+			"chunk": "new _Filesystem({ root: '/cache' })",
+			"type": "_Filesystem",
+			"value": {
+				"root": "/cache"
+			}
+		},
+		"_CONFIG": {
+			"chunk": "new _Config({ root: '/config.d' })",
+			"type": "_Config",
+			"value": {
+				"root": "/config.d"
+			}
+		},
+		"_FILTER": {
+			"chunk": "new _Filter({ root: '/settings' })",
+			"type": "_Filter",
+			"value": {
+				"root": "/settings"
+			}
+		},
+		"_PUBLIC": {
+			"chunk": "lychee.import('app.net.server.PUBLIC')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.server.PUBLIC",
+				"arguments": []
+			}
+		},
+		"_MIME": {
+			"chunk": "{\n\t\t'default':  { binary: true,  type: 'application/octet-stream'      },\n\t\t'appcache': { binary: false, type: 'text/cache-manifest'           },\n\t\t'css':      { binary: false, type: 'text/css'                      },\n\t\t'env':      { binary: false, type: 'application/json'              },\n\t\t'eot':      { binary: false, type: 'application/vnd.ms-fontobject' },\n\t\t'gz':       { binary: true,  type: 'application/x-gzip'            },\n\t\t'fnt':      { binary: false, type: 'application/json'              },\n\t\t'html':     { binary: false, type: 'text/html'                     },\n\t\t'ico':      { binary: true,  type: 'image/x-icon'                  },\n\t\t'jpg':      { binary: true,  type: 'image/jpeg'                    },\n\t\t'js':       { binary: false, type: 'application/javascript'        },\n\t\t'json':     { binary: false, type: 'application/json'              },\n\t\t'md':       { binary: false, type: 'text/x-markdown'               },\n\t\t'mf':       { binary: false, type: 'text/cache-manifest'           },\n\t\t'mp3':      { binary: true,  type: 'audio/mp3'                     },\n\t\t'ogg':      { binary: true,  type: 'application/ogg'               },\n\t\t'pkg':      { binary: false, type: 'application/json'              },\n\t\t'store':    { binary: false, type: 'application/json'              },\n\t\t'tar':      { binary: true,  type: 'application/x-tar'             },\n\t\t'ttf':      { binary: false, type: 'application/x-font-truetype'   },\n\t\t'txt':      { binary: false, type: 'text/plain'                    },\n\t\t'png':      { binary: true,  type: 'image/png'                     },\n\t\t'svg':      { binary: true,  type: 'image/svg+xml'                 },\n\t\t'woff':     { binary: true,  type: 'application/font-woff'         },\n\t\t'woff2':    { binary: true,  type: 'application/font-woff'         },\n\t\t'xml':      { binary: false, type: 'text/xml'                      },\n\t\t'zip':      { binary: true,  type: 'application/zip'               }\n\t}",
+			"type": "Object",
+			"value": {
+				"default": {
+					"binary": true,
+					"type": "application/octet-stream"
+				},
+				"appcache": {
+					"binary": false,
+					"type": "text/cache-manifest"
+				},
+				"css": {
+					"binary": false,
+					"type": "text/css"
+				},
+				"env": {
+					"binary": false,
+					"type": "application/json"
+				},
+				"eot": {
+					"binary": false,
+					"type": "application/vnd.ms-fontobject"
+				},
+				"gz": {
+					"binary": true,
+					"type": "application/x-gzip"
+				},
+				"fnt": {
+					"binary": false,
+					"type": "application/json"
+				},
+				"html": {
+					"binary": false,
+					"type": "text/html"
+				},
+				"ico": {
+					"binary": true,
+					"type": "image/x-icon"
+				},
+				"jpg": {
+					"binary": true,
+					"type": "image/jpeg"
+				},
+				"js": {
+					"binary": false,
+					"type": "application/javascript"
+				},
+				"json": {
+					"binary": false,
+					"type": "application/json"
+				},
+				"md": {
+					"binary": false,
+					"type": "text/x-markdown"
+				},
+				"mf": {
+					"binary": false,
+					"type": "text/cache-manifest"
+				},
+				"mp3": {
+					"binary": true,
+					"type": "audio/mp3"
+				},
+				"ogg": {
+					"binary": true,
+					"type": "application/ogg"
+				},
+				"pkg": {
+					"binary": false,
+					"type": "application/json"
+				},
+				"store": {
+					"binary": false,
+					"type": "application/json"
+				},
+				"tar": {
+					"binary": true,
+					"type": "application/x-tar"
+				},
+				"ttf": {
+					"binary": false,
+					"type": "application/x-font-truetype"
+				},
+				"txt": {
+					"binary": false,
+					"type": "text/plain"
+				},
+				"png": {
+					"binary": true,
+					"type": "image/png"
+				},
+				"svg": {
+					"binary": true,
+					"type": "image/svg+xml"
+				},
+				"woff": {
+					"binary": true,
+					"type": "application/font-woff"
+				},
+				"woff2": {
+					"binary": true,
+					"type": "application/font-woff"
+				},
+				"xml": {
+					"binary": false,
+					"type": "text/xml"
+				},
+				"zip": {
+					"binary": true,
+					"type": "application/zip"
+				}
+			}
+		},
+		"_filter_payload": {
+			"chunk": "function(host, payload) {\n\t\treturn _FILTER.process(host, _PUBLIC.get('/index.html'), payload);\n\t}",
+			"type": "function",
+			"hash": "fa7177ea",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "host",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "payload",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "_FILTER.process(host, _PUBLIC.get('/index.html'), payload)",
+					"type": "undefined"
+				}
+			]
+		},
+		"_request_https": {
+			"chunk": "function() {\n\t}",
+			"type": "function",
+			"hash": "4556ad41",
+			"parameters": [],
+			"values": []
+		},
+		"_request_http": {
+			"chunk": "undefined",
+			"type": "undefined"
+		},
+		"_get_headers": {
+			"chunk": "function(info, mime) {\n\n\t\tlet headers = {\n\t\t\t'status':          '200 OK',\n\t\t\t'e-tag':           '\"' + info.length + '-' + Date.parse(info.mtime) + '\"',\n\t\t\t'last-modified':   new Date(info.mtime).toUTCString(),\n\t\t\t'content-control': 'no-transform',\n\t\t\t'content-type':    mime.type,\n\t\t\t'expires':         new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toUTCString(),\n\t\t\t'vary':            'Accept-Encoding',\n\t\t\t'@binary':         mime.binary\n\t\t};\n\n\n\t\tif (mime.type.substr(0, 4) === 'text') {\n\t\t\theaders['content-type'] = mime.type + '; charset=utf-8';\n\t\t}\n\n\n\t\treturn headers;\n\n\t}",
+			"type": "function",
+			"hash": "b2fc69b9",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "info",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "mime",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "{'status':          '200 OK',\n\t\t\t'e-tag':           '\"' + info.length + '-' + Date.parse(info.mtime) + '\"',\n\t\t\t'last-modified':   new Date(info.mtime).toUTCString(),\n\t\t\t'content-control': 'no-transform',\n\t\t\t'content-type':    mime.type,\n\t\t\t'expires':         new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toUTCString(),\n\t\t\t'vary':            'Accept-Encoding',\n\t\t\t'@binary':         mime.binary\n\t\t}",
+					"type": "Object",
+					"value": {}
+				}
+			]
+		}
+	},
+	"errors": [],
+	"result": {
+		"constructor": {},
+		"settings": {},
+		"properties": {},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\treturn {\n\t\t\t\t'reference': 'app.net.server.REQUEST',\n\t\t\t\t'arguments': []\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "83f736ae",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'reference': 'app.net.server.REQUEST',\n\t\t\t\t'arguments': []\n\t\t\t}",
+						"type": "Object",
+						"value": {
+							"reference": "app.net.server.REQUEST",
+							"arguments": []
+						}
+					}
+				]
+			},
+			"receive": {
+				"chunk": "function(payload, headers) {\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet proto  = null;\n\n\n\t\t\tif (url.substr(0, 8) === 'https://') {\n\t\t\t\tproto = 'https';\n\t\t\t\turl   = url.substr(8);\n\t\t\t} else if (url.substr(0, 7) === 'http://') {\n\t\t\t\tproto = 'http';\n\t\t\t\turl   = url.substr(7);\n\t\t\t}\n\n\t\t\tlet i1 = url.indexOf('?');\n\t\t\tif (i1 !== -1) {\n\t\t\t\turl = url.substr(0, i1);\n\t\t\t}\n\n\t\t\tif (url.substr(-1) === '/') {\n\n\t\t\t\tpath = '/' + url + 'index.html';\n\n\t\t\t} else {\n\n\t\t\t\tlet tmp = url.split('.').pop();\n\t\t\t\tif (tmp.length > 4) {\n\t\t\t\t\tpath = '/' + url + '/index.html';\n\t\t\t\t} else {\n\t\t\t\t\tpath = '/' + url;\n\t\t\t\t}\n\n\t\t\t}\n\n\n\n\n\t\t\tinfo = _CACHE.info(path);\n\n\n\t\t\tif (proto === 'http') {\n\n\t\t\t\t_request_http('http://' + url, function(payload) {\n\n\t\t\t\t\tlet mime = _MIME[url.split('.').pop()] || null;\n\t\t\t\t\tif (mime === null) {\n\t\t\t\t\t\tmime = _MIME['html'];\n\t\t\t\t\t}\n\n\n\t\t\t\t\tlet headers = null;\n\n\t\t\t\t\tif (payload !== null) {\n\n\t\t\t\t\t\t_CACHE.write(path, payload);\n\n\t\t\t\t\t\tif (mime === _MIME['html']) {\n\t\t\t\t\t\t\tpayload = _filter_payload(path.split('/')[1], payload);\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tinfo    = _CACHE.info(path);\n\t\t\t\t\t\theaders = _get_headers(info, mime);\n\n\t\t\t\t\t} else {\n\n\t\t\t\t\t\theaders = {\n\t\t\t\t\t\t\t'status':       '404 Not Found',\n\t\t\t\t\t\t\t'content-type': 'text/plain; charset=utf-8'\n\t\t\t\t\t\t};\n\n\t\t\t\t\t\tpayload = 'Request blocked by AdBlock Proxy.';\n\n\t\t\t\t\t}\n\n\n\t\t\t\t\ttunnel.send(payload, headers);\n\n\t\t\t\t});\n\n\n\t\t\t\treturn true;\n\n\t\t\t} else if (proto === 'https') {\n\n\t\t\t\t// TODO: Request HTTPS\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "9249eee6",
+				"parameters": [
+					{
+						"chunk": "'Request blocked by AdBlock Proxy.'",
+						"name": "payload",
+						"type": "String",
+						"value": "Request blocked by AdBlock Proxy."
+					},
+					{
+						"chunk": "{",
+						"name": "headers",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					}
+				]
+			}
+		}
+	}
+}

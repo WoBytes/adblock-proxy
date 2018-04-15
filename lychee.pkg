@@ -1,5 +1,41 @@
 {
-	"api": {},
+	"api": {
+		"files": {
+			"data": {
+				"Config": [
+					"json"
+				],
+				"Filesystem": [
+					"json"
+				],
+				"Filter": [
+					"json"
+				]
+			},
+			"net": {
+				"Remote": [
+					"json"
+				],
+				"Server": [
+					"json"
+				],
+				"server": {
+					"API": [
+						"json"
+					],
+					"FILE": [
+						"json"
+					],
+					"PUBLIC": [
+						"json"
+					],
+					"REQUEST": [
+						"json"
+					]
+				}
+			}
+		}
+	},
 	"build": {
 		"environments": {}
 	},

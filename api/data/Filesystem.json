@@ -1,0 +1,319 @@
+{
+	"header": {
+		"identifier": "app.data.Filesystem",
+		"attaches": {},
+		"tags": {
+			"platform": "node"
+		},
+		"requires": [],
+		"includes": [],
+		"supports": {
+			"body": "function(lychee, global) {\n\n\ttry {\n\n\t\trequire('fs');\n\t\trequire('path');\n\n\t\treturn true;\n\n\t} catch (err) {\n\n\t}\n\n\n\treturn false;\n\n}",
+			"hash": "73a57d50",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "lychee",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "global",
+					"type": "undefined"
+				}
+			]
+		},
+		"type": "Composite"
+	},
+	"memory": {
+		"_ROOT": {
+			"chunk": "lychee.ROOT.project",
+			"type": "undefined"
+		},
+		"_fs": {
+			"chunk": "require('fs')",
+			"type": "undefined"
+		},
+		"_path": {
+			"chunk": "require('path')",
+			"type": "undefined"
+		},
+		"_create_directory": {
+			"chunk": "function(path, mode) {\n\n\t\tif (mode === undefined) {\n\t\t\tmode = 0o777 & (~process.umask());\n\t\t}\n\n\n\t\tlet is_directory = false;\n\n\t\ttry {\n\n\t\t\tis_directory = _fs.lstatSync(path).isDirectory();\n\n\t\t} catch (err) {\n\n\t\t\tif (err.code === 'ENOENT') {\n\n\t\t\t\tif (_create_directory(_path.dirname(path), mode) === true) {\n\t\t\t\t\t_fs.mkdirSync(path, mode);\n\t\t\t\t}\n\n\t\t\t\ttry {\n\t\t\t\t\tis_directory = _fs.lstatSync(path).isDirectory();\n\t\t\t\t} catch (err) {\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}\n\n\t\treturn is_directory;\n\n\t}",
+			"type": "function",
+			"hash": "76c7e7e6",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "path",
+					"type": "undefined"
+				},
+				{
+					"chunk": "0o777 & (~process.umask())",
+					"name": "mode",
+					"type": "Number",
+					"value": 493
+				}
+			],
+			"values": []
+		}
+	},
+	"errors": [
+		{
+			"url": "/projects/adblock-proxy/source/data/Filesystem.js",
+			"rule": "unguessable-return-value",
+			"reference": "dir",
+			"message": "Unguessable return value \"_fs.readdirSync(resolved)\" for method \"dir()\".",
+			"line": 0,
+			"column": 0
+		},
+		{
+			"url": "/projects/adblock-proxy/source/data/Filesystem.js",
+			"rule": "unguessable-return-value",
+			"reference": "read",
+			"message": "Unguessable return value \"_fs.readFileSync(resolved)\" for method \"read()\".",
+			"line": 0,
+			"column": 0
+		}
+	],
+	"result": {
+		"constructor": {
+			"type": "function",
+			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\tlet root = settings.root || null;\n\t\tif (root !== null) {\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\t\t} else {\n\t\t\tthis.root = _ROOT;\n\t\t}\n\n\n\t\tsettings = null;\n\n\t}",
+			"hash": "6744b405",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "Object"
+				}
+			]
+		},
+		"settings": {},
+		"properties": {
+			"root": {
+				"chunk": "this.root = _path.normalize(_ROOT + _path.normalize(root));",
+				"value": {
+					"chunk": "_path.normalize(_ROOT + _path.normalize(root))",
+					"type": "Number",
+					"value": 1337
+				}
+			}
+		},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\tlet settings = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "674049c4",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t}",
+						"type": "Object",
+						"value": {}
+					}
+				]
+			},
+			"asset": {
+				"chunk": "function(path, callback, scope) {\n\n\t\t\tpath     = typeof path === 'string'     ? path     : null;\n\t\t\tcallback = callback instanceof Function ? callback : null;\n\t\t\tscope    = scope !== undefined          ? scope    : this;\n\n\n\t\t\tif (path === null) {\n\n\t\t\t\tif (callback !== null) {\n\t\t\t\t\tcallback(null);\n\t\t\t\t} else {\n\t\t\t\t\treturn null;\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet asset    = null;\n\t\t\tlet resolved = _path.normalize(this.root.substr(process.cwd().length) + path);\n\t\t\tif (callback !== null) {\n\n\t\t\t\tasset = new lychee.Asset(resolved, null, true);\n\n\t\t\t\tif (asset !== null) {\n\n\t\t\t\t\tasset.onload = function() {\n\t\t\t\t\t\tcallback.call(scope, this);\n\t\t\t\t\t};\n\n\t\t\t\t\tasset.load();\n\n\t\t\t\t} else {\n\n\t\t\t\t\tcallback.call(scope, null);\n\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\ttry {\n\n\t\t\t\t\tasset = new lychee.Asset(resolved, null, true);\n\n\t\t\t\t\tif (asset !== null) {\n\t\t\t\t\t\tasset.load();\n\t\t\t\t\t}\n\n\t\t\t\t\treturn asset;\n\n\t\t\t\t} catch (err) {\n\t\t\t\t\treturn null;\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}",
+				"type": "function",
+				"hash": "7bb19ef8",
+				"parameters": [
+					{
+						"chunk": "typeof path === 'string'     ? path     : null",
+						"name": "path",
+						"type": "String",
+						"value": null
+					},
+					{
+						"chunk": "callback instanceof Function ? callback : null",
+						"name": "callback",
+						"type": "Function",
+						"value": null
+					},
+					{
+						"chunk": "scope !== undefined          ? scope    : this",
+						"name": "scope",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "null",
+						"type": "null",
+						"value": null
+					},
+					{
+						"chunk": "asset",
+						"type": "lychee.Asset",
+						"value": {
+							"constructor": "lychee.Asset",
+							"arguments": []
+						}
+					}
+				]
+			},
+			"dir": {
+				"chunk": "function(path, callback, scope) {\n\n\t\t\tpath     = typeof path === 'string'     ? path     : null;\n\t\t\tcallback = callback instanceof Function ? callback : null;\n\t\t\tscope    = scope !== undefined          ? scope    : this;\n\n\n\t\t\tif (path === null) {\n\n\t\t\t\tif (callback !== null) {\n\t\t\t\t\tcallback([]);\n\t\t\t\t} else {\n\t\t\t\t\treturn [];\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet resolved = _path.normalize(this.root + path);\n\t\t\tif (callback !== null) {\n\n\t\t\t\t_fs.readdir(resolved, function(err, data) {\n\n\t\t\t\t\tif (err) {\n\t\t\t\t\t\tcallback.call(scope, []);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcallback.call(scope, data);\n\t\t\t\t\t}\n\n\t\t\t\t});\n\n\t\t\t} else {\n\n\t\t\t\ttry {\n\t\t\t\t\treturn _fs.readdirSync(resolved);\n\t\t\t\t} catch (err) {\n\t\t\t\t\treturn [];\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}",
+				"type": "function",
+				"hash": "e4e941ac",
+				"parameters": [
+					{
+						"chunk": "typeof path === 'string'     ? path     : null",
+						"name": "path",
+						"type": "String",
+						"value": null
+					},
+					{
+						"chunk": "callback instanceof Function ? callback : null",
+						"name": "callback",
+						"type": "Function",
+						"value": null
+					},
+					{
+						"chunk": "scope !== undefined          ? scope    : this",
+						"name": "scope",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "[]",
+						"type": "Array",
+						"value": []
+					},
+					{
+						"chunk": "_fs.readdirSync(resolved)",
+						"type": "undefined"
+					}
+				]
+			},
+			"read": {
+				"chunk": "function(path, callback, scope) {\n\n\t\t\tpath     = typeof path === 'string'     ? path     : null;\n\t\t\tcallback = callback instanceof Function ? callback : null;\n\t\t\tscope    = scope !== undefined          ? scope    : this;\n\n\n\t\t\tif (path === null) {\n\n\t\t\t\tif (callback !== null) {\n\t\t\t\t\tcallback(null);\n\t\t\t\t} else {\n\t\t\t\t\treturn null;\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet resolved = _path.normalize(this.root + path);\n\t\t\tif (callback !== null) {\n\n\t\t\t\tlet data = null;\n\t\t\t\ttry {\n\t\t\t\t\tdata = _fs.readFileSync(resolved);\n\t\t\t\t} catch (err) {\n\t\t\t\t\tdata = null;\n\t\t\t\t}\n\n\t\t\t\tcallback.call(scope, data);\n\n\t\t\t} else {\n\n\t\t\t\ttry {\n\t\t\t\t\treturn _fs.readFileSync(resolved);\n\t\t\t\t} catch (err) {\n\t\t\t\t\treturn null;\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}",
+				"type": "function",
+				"hash": "a6440347",
+				"parameters": [
+					{
+						"chunk": "typeof path === 'string'     ? path     : null",
+						"name": "path",
+						"type": "String",
+						"value": null
+					},
+					{
+						"chunk": "callback instanceof Function ? callback : null",
+						"name": "callback",
+						"type": "Function",
+						"value": null
+					},
+					{
+						"chunk": "scope !== undefined          ? scope    : this",
+						"name": "scope",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "null",
+						"type": "null",
+						"value": null
+					},
+					{
+						"chunk": "_fs.readFileSync(resolved)",
+						"type": "undefined"
+					}
+				]
+			},
+			"write": {
+				"chunk": "function(path, data, callback, scope) {\n\n\t\t\tpath     = typeof path === 'string'     ? path     : null;\n\t\t\tdata     = data !== undefined           ? data     : null;\n\t\t\tcallback = callback instanceof Function ? callback : null;\n\t\t\tscope    = scope !== undefined          ? scope    : this;\n\n\n\t\t\tif (path === null) {\n\n\t\t\t\tif (callback !== null) {\n\t\t\t\t\tcallback(false);\n\t\t\t\t} else {\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet encoding = 'binary';\n\n\t\t\tif (typeof data === 'string') {\n\t\t\t\tencoding = 'utf8';\n\t\t\t} else {\n\t\t\t\tencoding = 'binary';\n\t\t\t}\n\n\n\t\t\t_create_directory(_path.dirname(this.root + path));\n\n\n\t\t\tlet info     = this.info(_path.dirname(path));\n\t\t\tlet resolved = _path.normalize(this.root + path);\n\t\t\tif (resolved !== null && info !== null && info.type === 'directory') {\n\n\t\t\t\tif (callback !== null) {\n\n\t\t\t\t\tlet result = false;\n\t\t\t\t\ttry {\n\t\t\t\t\t\t_fs.writeFileSync(resolved, data, encoding);\n\t\t\t\t\t\tresult = true;\n\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tresult = false;\n\t\t\t\t\t}\n\n\t\t\t\t\tcallback.call(scope, result);\n\n\t\t\t\t} else {\n\n\t\t\t\t\tlet result = false;\n\t\t\t\t\ttry {\n\t\t\t\t\t\t_fs.writeFileSync(resolved, data, encoding);\n\t\t\t\t\t\tresult = true;\n\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tresult = false;\n\t\t\t\t\t}\n\n\t\t\t\t\treturn result;\n\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\tif (callback !== null) {\n\t\t\t\t\tcallback.call(scope, false);\n\t\t\t\t} else {\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\n\t\t\t}\n\n\t\t}",
+				"type": "function",
+				"hash": "b498d9f7",
+				"parameters": [
+					{
+						"chunk": "typeof path === 'string'     ? path     : null",
+						"name": "path",
+						"type": "String",
+						"value": null
+					},
+					{
+						"chunk": "data !== undefined           ? data     : null",
+						"name": "data",
+						"type": "Object",
+						"value": {}
+					},
+					{
+						"chunk": "callback instanceof Function ? callback : null",
+						"name": "callback",
+						"type": "Function",
+						"value": null
+					},
+					{
+						"chunk": "scope !== undefined          ? scope    : this",
+						"name": "scope",
+						"type": "Object",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					},
+					{
+						"chunk": "result",
+						"type": "Boolean",
+						"value": true
+					}
+				]
+			},
+			"info": {
+				"chunk": "function(path) {\n\n\t\t\tpath = typeof path === 'string' ? path : null;\n\n\n\t\t\tif (path === null) return null;\n\n\n\t\t\tlet resolved = _path.normalize(this.root + path);\n\t\t\tif (resolved !== null) {\n\n\t\t\t\tlet stat = null;\n\n\t\t\t\ttry {\n\t\t\t\t\tstat = _fs.lstatSync(resolved);\n\t\t\t\t} catch (err) {\n\t\t\t\t\tstat = null;\n\t\t\t\t}\n\n\n\t\t\t\tif (stat !== null) {\n\n\t\t\t\t\treturn {\n\t\t\t\t\t\ttype:   stat.isFile() ? 'file' : 'directory',\n\t\t\t\t\t\tlength: stat.size,\n\t\t\t\t\t\tmtime:  new Date(stat.mtime.toUTCString())\n\t\t\t\t\t};\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn null;\n\n\t\t}",
+				"type": "function",
+				"hash": "4fa95859",
+				"parameters": [
+					{
+						"chunk": "typeof path === 'string' ? path : null",
+						"name": "path",
+						"type": "String",
+						"value": null
+					}
+				],
+				"values": [
+					{
+						"chunk": "null",
+						"type": "null",
+						"value": null
+					},
+					{
+						"chunk": "{ type:   stat.isFile() ? 'file' : 'directory',\n\t\t\t\t\t\tlength: stat.size,\n\t\t\t\t\t\tmtime:  new Date(stat.mtime.toUTCString())\n\t\t\t\t\t}",
+						"type": "Object",
+						"value": {}
+					}
+				]
+			}
+		}
+	}
+}

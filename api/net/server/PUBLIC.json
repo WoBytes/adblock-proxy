@@ -1,0 +1,205 @@
+{
+	"header": {
+		"identifier": "app.net.server.PUBLIC",
+		"attaches": {},
+		"tags": {},
+		"requires": [
+			"app.data.Filesystem"
+		],
+		"includes": [],
+		"supports": {},
+		"type": "Module"
+	},
+	"memory": {
+		"_Filesystem": {
+			"chunk": "lychee.import('app.data.Filesystem')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filesystem",
+				"arguments": []
+			}
+		},
+		"_CACHE": {
+			"chunk": "new _Filesystem({ root: '/public' })",
+			"type": "_Filesystem",
+			"value": {
+				"root": "/public"
+			}
+		},
+		"_PAYLOADS": {
+			"chunk": "{}",
+			"type": "Object",
+			"value": {}
+		},
+		"_MIME": {
+			"chunk": "{\n\t\t'default': { binary: true,  type: 'application/octet-stream' },\n\t\t'css':     { binary: false, type: 'text/css'                 },\n\t\t'html':    { binary: false, type: 'text/html'                },\n\t\t'js':      { binary: false, type: 'application/javascript'   }\n\t}",
+			"type": "Object",
+			"value": {
+				"default": {
+					"binary": true,
+					"type": "application/octet-stream"
+				},
+				"css": {
+					"binary": false,
+					"type": "text/css"
+				},
+				"html": {
+					"binary": false,
+					"type": "text/html"
+				},
+				"js": {
+					"binary": false,
+					"type": "application/javascript"
+				}
+			}
+		},
+		"_get_headers": {
+			"chunk": "function(info, mime) {\n\n\t\tlet headers = {\n\t\t\t'status':          '200 OK',\n\t\t\t'e-tag':           '\"' + info.length + '-' + Date.parse(info.mtime) + '\"',\n\t\t\t'last-modified':   new Date(info.mtime).toUTCString(),\n\t\t\t'content-control': 'no-transform',\n\t\t\t'content-type':    mime.type,\n\t\t\t'expires':         new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toUTCString(),\n\t\t\t'vary':            'Accept-Encoding',\n\t\t\t'@binary':         mime.binary\n\t\t};\n\n\n\t\tif (mime.type.substr(0, 4) === 'text') {\n\t\t\theaders['content-type'] = mime.type + '; charset=utf-8';\n\t\t}\n\n\n\t\treturn headers;\n\n\t}",
+			"type": "function",
+			"hash": "b2fc69b9",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "info",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "mime",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "{'status':          '200 OK',\n\t\t\t'e-tag':           '\"' + info.length + '-' + Date.parse(info.mtime) + '\"',\n\t\t\t'last-modified':   new Date(info.mtime).toUTCString(),\n\t\t\t'content-control': 'no-transform',\n\t\t\t'content-type':    mime.type,\n\t\t\t'expires':         new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toUTCString(),\n\t\t\t'vary':            'Accept-Encoding',\n\t\t\t'@binary':         mime.binary\n\t\t}",
+					"type": "Object",
+					"value": {}
+				}
+			]
+		},
+		"_replace_server": {
+			"chunk": "function(payload) {\n\n\t\tlet main = lychee.import('MAIN');\n\t\tif (main !== null && payload !== null) {\n\n\t\t\tlet host = main.host;\n\t\t\tlet port = main.port;\n\n\t\t\tif (host === null) {\n\t\t\t\thost = 'localhost';\n\t\t\t}\n\n\t\t\tlet url = host + ':' + port;\n\t\t\tif (url !== '127.0.0.1:8080' && url !== 'localhost:8080') {\n\t\t\t\tlet data = payload.toString('utf8');\n\t\t\t\tdata = data.split('localhost:8080').join(url);\n\t\t\t\tpayload = new Buffer(data, 'utf8');\n\t\t\t}\n\n\t\t}\n\n\t\treturn payload;\n\n\t}",
+			"type": "function",
+			"hash": "71183471",
+			"parameters": [
+				{
+					"chunk": "new Buffer(data, 'utf8')",
+					"name": "payload",
+					"type": "Buffer"
+				}
+			],
+			"values": [
+				{
+					"chunk": "new Buffer(data, 'utf8')",
+					"type": "Buffer"
+				}
+			]
+		}
+	},
+	"errors": [
+		{
+			"url": "/projects/adblock-proxy/source/net/server/PUBLIC.js",
+			"rule": "no-parameter-value",
+			"reference": "receive",
+			"message": "Invalid parameter values for \"payload\", \"headers\" for method \"receive()\".",
+			"line": 0,
+			"column": 0
+		}
+	],
+	"result": {
+		"constructor": {},
+		"settings": {},
+		"properties": {},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\treturn {\n\t\t\t\t'reference': 'app.net.server.PUBLIC',\n\t\t\t\t'arguments': []\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "a7612241",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'reference': 'app.net.server.PUBLIC',\n\t\t\t\t'arguments': []\n\t\t\t}",
+						"type": "Object",
+						"value": {
+							"reference": "app.net.server.PUBLIC",
+							"arguments": []
+						}
+					}
+				]
+			},
+			"get": {
+				"chunk": "function(url) {\n\n\t\t\turl = typeof url === 'string' ? url : '';\n\n\n\t\t\tlet path = url;\n\t\t\tif (path.startsWith('/public')) {\n\t\t\t\tpath = path.substr(7);\n\t\t\t}\n\n\t\t\tlet payload = _PAYLOADS[path] || null;\n\t\t\tif (payload === null) {\n\t\t\t\tpayload = _PAYLOADS[path] = _replace_server(_CACHE.read(path));\n\t\t\t}\n\n\t\t\treturn payload;\n\n\t\t}",
+				"type": "function",
+				"hash": "e92c389d",
+				"parameters": [
+					{
+						"chunk": "typeof url === 'string' ? url : ''",
+						"name": "url",
+						"type": "String",
+						"value": ""
+					}
+				],
+				"values": [
+					{
+						"chunk": "_PAYLOADS[path] || null",
+						"type": "Object",
+						"value": {}
+					},
+					{
+						"chunk": "_PAYLOADS[path] = _replace_server(_CACHE.read(path))",
+						"type": "undefined"
+					}
+				]
+			},
+			"receive": {
+				"chunk": "function(payload, headers) {\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet mime   = _MIME[url.split('.').pop()] || _MIME['default'];\n\n\t\t\tlet index = url.indexOf('/adblock/public');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 15);\n\t\t\t\tinfo = _CACHE.info(path);\n\t\t\t}\n\n\n\t\t\tif (info !== null && info.type === 'file') {\n\n\t\t\t\t_CACHE.read(path, function(payload) {\n\t\t\t\t\tpayload = _replace_server(payload);\n\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "4ca2059f",
+				"parameters": [
+					{
+						"chunk": null,
+						"name": "payload",
+						"type": "undefined"
+					},
+					{
+						"chunk": null,
+						"name": "headers",
+						"type": "undefined"
+					}
+				],
+				"values": [
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					}
+				]
+			}
+		}
+	}
+}

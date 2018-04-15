@@ -1,0 +1,125 @@
+{
+	"header": {
+		"identifier": "app.net.Server",
+		"attaches": {},
+		"tags": {},
+		"requires": [
+			"app.net.Remote",
+			"app.net.server.API",
+			"app.net.server.PUBLIC",
+			"app.net.server.FILE",
+			"app.net.server.REQUEST"
+		],
+		"includes": [
+			"lychee.net.Server"
+		],
+		"supports": {},
+		"type": "Composite"
+	},
+	"memory": {
+		"_API": {
+			"chunk": "lychee.import('app.net.server.API')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.server.API",
+				"arguments": []
+			}
+		},
+		"_PUBLIC": {
+			"chunk": "lychee.import('app.net.server.PUBLIC')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.server.PUBLIC",
+				"arguments": []
+			}
+		},
+		"_FILE": {
+			"chunk": "lychee.import('app.net.server.FILE')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.server.FILE",
+				"arguments": []
+			}
+		},
+		"_Remote": {
+			"chunk": "lychee.import('app.net.Remote')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.Remote",
+				"arguments": []
+			}
+		},
+		"_REQUEST": {
+			"chunk": "lychee.import('app.net.server.REQUEST')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.net.server.REQUEST",
+				"arguments": []
+			}
+		},
+		"_Server": {
+			"chunk": "lychee.import('lychee.net.Server')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "lychee.net.Server",
+				"arguments": []
+			}
+		},
+		"_CODEC": {
+			"chunk": "{\n\t\tencode: function(data) {\n\t\t\treturn data;\n\t\t},\n\t\tdecode: function(data) {\n\t\t\treturn data;\n\t\t}\n\t}",
+			"type": "Object",
+			"value": {}
+		}
+	},
+	"errors": [],
+	"result": {
+		"constructor": {
+			"type": "function",
+			"body": "function(data) {\n\n\t\tlet settings = Object.assign({\n\t\t\tcodec:  _CODEC,\n\t\t\tremote: _Remote,\n\t\t\ttype:   _Server.TYPE.HTTP\n\t\t}, data);\n\n\n\t\t_Server.call(this, settings);\n\n\t\tsettings = null;\n\n\n\n\t\t/*\n\t\t * INITIALIZATION\n\t\t */\n\n\t\tthis.bind('connect', function(remote) {\n\n\t\t\tremote.bind('receive', function(payload, headers) {\n\n\t\t\t\tlet method = headers['method'];\n\t\t\t\tif (method === 'OPTIONS') {\n\n\t\t\t\t\tthis.send({}, {\n\t\t\t\t\t\t'status':                       '200 OK',\n\t\t\t\t\t\t'access-control-allow-headers': 'Content-Type',\n\t\t\t\t\t\t'access-control-allow-origin':  '*',\n\t\t\t\t\t\t'access-control-allow-methods': 'GET, POST',\n\t\t\t\t\t\t'access-control-max-age':       '3600'\n\t\t\t\t\t});\n\n\t\t\t\t} else {\n\n\t\t\t\t\tlet url = headers['url'] || '';\n\t\t\t\t\tif (url.includes('/adblock/api')) {\n\n\t\t\t\t\t\tlet api = _API.receive.call({ tunnel: this }, payload, headers);\n\t\t\t\t\t\tif (api === false) {\n\n\t\t\t\t\t\t\tthis.send('{ \"message\": \"Not allowed\" }', {\n\t\t\t\t\t\t\t\t'status':                       '403 Forbidden',\n\t\t\t\t\t\t\t\t'access-control-allow-origin':  '*',\n\t\t\t\t\t\t\t\t'access-control-allow-methods': 'GET, POST',\n\t\t\t\t\t\t\t\t'content-type':                 'application/json'\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t} else if (url.includes('/adblock/public')) {\n\n\t\t\t\t\t\tlet publik = _PUBLIC.receive.call({ tunnel: this }, payload, headers);\n\t\t\t\t\t\tif (publik === false) {\n\n\t\t\t\t\t\t\tthis.send('Invalid CSRF Request.', {\n\t\t\t\t\t\t\t\t'status':       '404 Not Found',\n\t\t\t\t\t\t\t\t'content-type': 'text/plain; charset=utf-8'\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t} else {\n\n\t\t\t\t\t\tlet file = _FILE.receive.call({ tunnel: this }, payload, headers);\n\t\t\t\t\t\tif (file === false) {\n\n\t\t\t\t\t\t\tlet request = _REQUEST.receive.call({ tunnel: this }, payload, headers);\n\t\t\t\t\t\t\tif (request === false) {\n\n\t\t\t\t\t\t\t\tthis.send('No Network Connection.', {\n\t\t\t\t\t\t\t\t\t'status':       '404 Not Found',\n\t\t\t\t\t\t\t\t\t'content-type': 'text/plain; charset=utf-8'\n\t\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t});\n\n\t\t}, this);\n\n\n\t\tthis.connect();\n\n\t}",
+			"hash": "8884312e",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "Object"
+				}
+			]
+		},
+		"settings": {},
+		"properties": {},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\tlet data = _Server.prototype.serialize.call(this);\n\t\t\tdata['constructor'] = 'app.net.Server';\n\n\n\t\t\treturn data;\n\n\t\t}",
+				"type": "function",
+				"hash": "e8690751",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "_Server.prototype.serialize.call(this)",
+						"type": "undefined"
+					}
+				]
+			}
+		}
+	}
+}

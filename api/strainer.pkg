@@ -1,0 +1,246 @@
+{
+	"/projects/adblock-proxy/api/data/Config.json": {
+		"identifier": "app.data.Config",
+		"timestamp": 1523695613480,
+		"knowledge": {
+			"settings": [],
+			"properties": [
+				"fs",
+				"root"
+			],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"191c2fa1"
+				],
+				[
+					"isBlockedHost",
+					"38f98d90"
+				],
+				[
+					"isBlockedLink",
+					"e46da598"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/data/Filter.json": {
+		"identifier": "app.data.Filter",
+		"timestamp": 1523695613480,
+		"knowledge": {
+			"settings": [],
+			"properties": [
+				"fs",
+				"root"
+			],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"ec3e2711"
+				],
+				[
+					"process",
+					"65873b82"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/data/Filesystem.json": {
+		"identifier": "app.data.Filesystem",
+		"timestamp": 1523695613480,
+		"knowledge": {
+			"settings": [],
+			"properties": [
+				"root"
+			],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"674049c4"
+				],
+				[
+					"asset",
+					"7bb19ef8"
+				],
+				[
+					"dir",
+					"e4e941ac"
+				],
+				[
+					"read",
+					"a6440347"
+				],
+				[
+					"write",
+					"b498d9f7"
+				],
+				[
+					"info",
+					"4fa95859"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/Remote.json": {
+		"identifier": "app.net.Remote",
+		"timestamp": 1523695613480,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"33d04d23"
+				],
+				[
+					"send",
+					"017f5424"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/Server.json": {
+		"identifier": "app.net.Server",
+		"timestamp": 1523695613481,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"e8690751"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/server/API.json": {
+		"identifier": "app.net.server.API",
+		"timestamp": 1523695613481,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"f99de28f"
+				],
+				[
+					"receive",
+					"6a285ea0"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/server/FILE.json": {
+		"identifier": "app.net.server.FILE",
+		"timestamp": 1523695613481,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"fa7685e2"
+				],
+				[
+					"receive",
+					"99a9b51f"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/server/PUBLIC.json": {
+		"identifier": "app.net.server.PUBLIC",
+		"timestamp": 1523695613481,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"a7612241"
+				],
+				[
+					"get",
+					"e92c389d"
+				],
+				[
+					"receive",
+					"4ca2059f"
+				]
+			]
+		}
+	},
+	"/projects/adblock-proxy/api/net/server/REQUEST.json": {
+		"identifier": "app.net.server.REQUEST",
+		"timestamp": 1523695613481,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"83f736ae"
+				],
+				[
+					"receive",
+					"9249eee6"
+				]
+			]
+		}
+	}
+}

@@ -1,0 +1,183 @@
+{
+	"header": {
+		"identifier": "app.net.server.API",
+		"attaches": {},
+		"tags": {},
+		"requires": [
+			"app.data.Filesystem"
+		],
+		"includes": [],
+		"supports": {},
+		"type": "Module"
+	},
+	"memory": {
+		"_Filesystem": {
+			"chunk": "lychee.import('app.data.Filesystem')",
+			"type": "lychee.Definition",
+			"value": {
+				"reference": "app.data.Filesystem",
+				"arguments": []
+			}
+		},
+		"_CACHE": {
+			"chunk": "new _Filesystem({ root: '/settings' })",
+			"type": "_Filesystem",
+			"value": {
+				"root": "/settings"
+			}
+		},
+		"_DEFAULTS": {
+			"chunk": "{\n\t\tcss: false,\n\t\tjs:  false,\n\t\timg: false,\n\t\tvid: false\n\t}",
+			"type": "Object",
+			"value": {
+				"css": false,
+				"js": false,
+				"img": false,
+				"vid": false
+			}
+		},
+		"_get_headers": {
+			"chunk": "function(result) {\n\n\t\tlet status = '406 Not Acceptable';\n\t\tif (result === undefined || result === true) {\n\t\t\tstatus = '200 OK';\n\t\t}\n\n\n\t\tlet headers = {\n\t\t\t'status':                      status,\n\t\t\t'access-control-allow-origin': '*',\n\t\t\t'content-control':             'no-transform',\n\t\t\t'content-type':                'application/json',\n\t\t\t'expires':                     new Date(Date.now()).toUTCString(),\n\t\t\t'vary':                        'Accept-Encoding',\n\t\t\t'@binary':                     false\n\t\t};\n\n\n\t\treturn headers;\n\n\t}",
+			"type": "function",
+			"hash": "d042fe5e",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "result",
+					"type": "undefined"
+				}
+			],
+			"values": [
+				{
+					"chunk": "{'status':                      status,\n\t\t\t'access-control-allow-origin': '*',\n\t\t\t'content-control':             'no-transform',\n\t\t\t'content-type':                'application/json',\n\t\t\t'expires':                     new Date(Date.now()).toUTCString(),\n\t\t\t'vary':                        'Accept-Encoding',\n\t\t\t'@binary':                     false\n\t\t}",
+					"type": "Object",
+					"value": {}
+				}
+			]
+		},
+		"_read_settings": {
+			"chunk": "function(host, callback) {\n\n\t\tlet path = '/' + host + '.json';\n\t\tlet info = _CACHE.info(path);\n\t\tif (info !== null) {\n\n\t\t\t_CACHE.read(path, function(raw) {\n\n\t\t\t\tlet data = null;\n\t\t\t\tif (raw !== null) {\n\n\t\t\t\t\ttry {\n\t\t\t\t\t\tdata = JSON.parse(raw.toString('utf8'));\n\t\t\t\t\t} catch (err) {\n\t\t\t\t\t}\n\n\t\t\t\t}\n\n\t\t\t\tif (data !== null) {\n\n\t\t\t\t\tcallback(data);\n\n\t\t\t\t} else {\n\n\t\t\t\t\tcallback(_DEFAULTS);\n\n\t\t\t\t}\n\n\t\t\t});\n\n\t\t} else {\n\n\t\t\tcallback(_DEFAULTS);\n\n\t\t}\n\n\t}",
+			"type": "function",
+			"hash": "f6e28dc2",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "host",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "callback",
+					"type": "undefined"
+				}
+			],
+			"values": []
+		},
+		"_write_settings": {
+			"chunk": "function(host, data, callback) {\n\n\t\tlet path   = '/' + host + '.json';\n\t\tlet tmp    = Object.assign({}, data);\n\t\tlet buffer = JSON.stringify(tmp, null, '\\t');\n\n\n\t\t_CACHE.write(path, buffer, function(result) {\n\t\t\tcallback(result);\n\t\t});\n\n\t}",
+			"type": "function",
+			"hash": "282bd4e4",
+			"parameters": [
+				{
+					"chunk": null,
+					"name": "host",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "data",
+					"type": "undefined"
+				},
+				{
+					"chunk": null,
+					"name": "callback",
+					"type": "undefined"
+				}
+			],
+			"values": []
+		}
+	},
+	"errors": [
+		{
+			"url": "/projects/adblock-proxy/source/net/server/API.js",
+			"rule": "no-parameter-value",
+			"reference": "receive",
+			"message": "Invalid parameter values for \"headers\" for method \"receive()\".",
+			"line": 0,
+			"column": 0
+		}
+	],
+	"result": {
+		"constructor": {},
+		"settings": {},
+		"properties": {},
+		"enums": {},
+		"events": {},
+		"methods": {
+			"deserialize": {
+				"type": "function",
+				"body": "function(blob) {}",
+				"chunk": "function(blob) {",
+				"hash": "cf6d9c5f",
+				"parameters": [
+					{
+						"name": "blob",
+						"type": "SerializationBlob",
+						"value": {}
+					}
+				],
+				"values": [
+					{
+						"type": "undefined"
+					}
+				]
+			},
+			"serialize": {
+				"chunk": "function() {\n\n\t\t\treturn {\n\t\t\t\t'reference': 'app.net.server.API',\n\t\t\t\t'arguments': []\n\t\t\t};\n\n\t\t}",
+				"type": "function",
+				"hash": "f99de28f",
+				"parameters": [],
+				"values": [
+					{
+						"chunk": "{ 'reference': 'app.net.server.API',\n\t\t\t\t'arguments': []\n\t\t\t}",
+						"type": "Object",
+						"value": {
+							"reference": "app.net.server.API",
+							"arguments": []
+						}
+					}
+				]
+			},
+			"receive": {
+				"chunk": "function(payload, headers) {\n\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet host   = headers['host'];\n\t\t\tlet url    = headers['url'];\n\t\t\tlet method = headers['method'];\n\n\n\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\ttry {\n\t\t\t\t\tpayload = JSON.parse(payload.toString('utf8'));\n\t\t\t\t} catch (err) {\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet index = url.indexOf('/adblock/api');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 12).trim();\n\t\t\t}\n\n\n\t\t\tif (path === '/settings' && method === 'GET') {\n\n\t\t\t\t_read_settings(host, function(data) {\n\t\t\t\t\ttunnel.send(JSON.stringify(data), _get_headers(data !== null));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t} else if (path === '/settings' && method === 'POST') {\n\n\t\t\t\t_write_settings(host, payload, function(result) {\n\n\t\t\t\t\ttunnel.send(JSON.stringify({\n\t\t\t\t\t\tmessage: 'OKAY'\n\t\t\t\t\t}), _get_headers(result));\n\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"type": "function",
+				"hash": "6a285ea0",
+				"parameters": [
+					{
+						"chunk": "JSON.parse(payload.toString('utf8'))",
+						"name": "payload",
+						"type": "String",
+						"value": "<string>"
+					},
+					{
+						"chunk": null,
+						"name": "headers",
+						"type": "undefined"
+					}
+				],
+				"values": [
+					{
+						"chunk": "true",
+						"type": "Boolean",
+						"value": true
+					},
+					{
+						"chunk": "false",
+						"type": "Boolean",
+						"value": false
+					}
+				]
+			}
+		}
+	}
+}
