@@ -40,10 +40,9 @@
 		"environments": {}
 	},
 	"review": {
-		"environments": {}
+		"simulations": {}
 	},
 	"source": {
-		"environments": {},
 		"files": {
 			"data": {
 				"Config": [

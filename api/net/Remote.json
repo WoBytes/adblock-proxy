@@ -48,16 +48,7 @@
 			}
 		}
 	},
-	"errors": [
-		{
-			"url": "/projects/adblock-proxy/source/net/Remote.js",
-			"rule": "no-parameter-value",
-			"reference": "send",
-			"message": "Invalid parameter values for \"data\" for method \"send()\".",
-			"line": 0,
-			"column": 0
-		}
-	],
+	"errors": [],
 	"result": {
 		"constructor": {
 			"type": "function",
@@ -108,14 +99,15 @@
 				]
 			},
 			"send": {
-				"chunk": "function(data, headers) {\n\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tif (data instanceof Object) {\n\n\t\t\t\theaders['access-control-allow-origin'] = '*';\n\t\t\t\theaders['content-control']             = 'no-transform';\n\n\n\t\t\t\tlet codec = this.codec;\n\t\t\t\tif (codec === _BENCODE) {\n\t\t\t\t\theaders['content-type'] = 'application/bencode; charset=utf-8';\n\t\t\t\t} else if (codec === _BITON) {\n\t\t\t\t\theaders['content-type'] = 'application/biton; charset=binary';\n\t\t\t\t} else if (codec === _JSON) {\n\t\t\t\t\theaders['content-type'] = 'application/json; charset=utf-8';\n\t\t\t\t}\n\n\n\t\t\t\tlet event = headers['event'] || null;\n\t\t\t\tif (event === 'error') {\n\t\t\t\t\theaders['status'] = '400 Bad Request';\n\t\t\t\t}\n\n\n\t\t\t\tif (/@plug|@unplug/g.test(headers.method) === false) {\n\t\t\t\t\treturn _Tunnel.prototype.send.call(this, data, headers);\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\tlet payload = null;\n\n\t\t\t\tif (typeof data === 'string') {\n\t\t\t\t\tpayload = new Buffer(data, 'utf8');\n\t\t\t\t} else if (data instanceof Buffer) {\n\t\t\t\t\tpayload = data;\n\t\t\t\t}\n\n\n\t\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\t\tthis.trigger('send', [ payload, headers ]);\n\n\t\t\t\t\treturn true;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"chunk": "function(data, headers) {\n\n\t\t\tdata    = data !== undefined        ? data    : null;\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tif (data instanceof Object) {\n\n\t\t\t\theaders['access-control-allow-origin'] = '*';\n\t\t\t\theaders['content-control']             = 'no-transform';\n\n\n\t\t\t\tlet codec = this.codec;\n\t\t\t\tif (codec === _BENCODE) {\n\t\t\t\t\theaders['content-type'] = 'application/bencode; charset=utf-8';\n\t\t\t\t} else if (codec === _BITON) {\n\t\t\t\t\theaders['content-type'] = 'application/biton; charset=binary';\n\t\t\t\t} else if (codec === _JSON) {\n\t\t\t\t\theaders['content-type'] = 'application/json; charset=utf-8';\n\t\t\t\t}\n\n\n\t\t\t\tlet event = headers['event'] || null;\n\t\t\t\tif (event === 'error') {\n\t\t\t\t\theaders['status'] = '400 Bad Request';\n\t\t\t\t}\n\n\n\t\t\t\tif (/@plug|@unplug/g.test(headers.method) === false) {\n\t\t\t\t\treturn _Tunnel.prototype.send.call(this, data, headers);\n\t\t\t\t}\n\n\t\t\t} else {\n\n\t\t\t\tlet payload = null;\n\n\t\t\t\tif (typeof data === 'string') {\n\t\t\t\t\tpayload = new Buffer(data, 'utf8');\n\t\t\t\t} else if (data instanceof Buffer) {\n\t\t\t\t\tpayload = data;\n\t\t\t\t}\n\n\n\t\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\t\tthis.trigger('send', [ payload, headers ]);\n\n\t\t\t\t\treturn true;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
 				"type": "function",
-				"hash": "017f5424",
+				"hash": "6ceff57d",
 				"parameters": [
 					{
-						"chunk": null,
+						"chunk": "data !== undefined        ? data    : null",
 						"name": "data",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					},
 					{
 						"chunk": "headers instanceof Object ? headers : {}",

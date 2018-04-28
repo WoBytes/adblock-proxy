@@ -56,6 +56,7 @@ lychee.define('app.net.Remote').requires([
 
 		send: function(data, headers) {
 
+			data    = data !== undefined        ? data    : null;
 			headers = headers instanceof Object ? headers : {};
 
 

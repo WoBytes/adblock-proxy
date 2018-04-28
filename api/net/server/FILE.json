@@ -230,16 +230,7 @@
 			]
 		}
 	},
-	"errors": [
-		{
-			"url": "/projects/adblock-proxy/source/net/server/FILE.js",
-			"rule": "no-parameter-value",
-			"reference": "receive",
-			"message": "Invalid parameter values for \"payload\", \"headers\" for method \"receive()\".",
-			"line": 0,
-			"column": 0
-		}
-	],
+	"errors": [],
 	"result": {
 		"constructor": {},
 		"settings": {},
@@ -282,19 +273,21 @@
 				]
 			},
 			"receive": {
-				"chunk": "function(payload, headers) {\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet mime   = _MIME[url.split('.').pop()] || null;\n\n\n\t\t\tif (url.substr(0, 8) === 'https://') {\n\t\t\t\turl = url.substr(8);\n\t\t\t} else if (url.substr(0, 7) === 'http://') {\n\t\t\t\turl = url.substr(7);\n\t\t\t}\n\n\t\t\tlet i1 = url.indexOf('?');\n\t\t\tif (i1 !== -1) {\n\t\t\t\turl = url.substr(0, i1);\n\t\t\t}\n\n\t\t\t// Directory mode\n\t\t\tif (mime === null) {\n\n\t\t\t\tif (url.substr(-1) === '/') {\n\t\t\t\t\tpath = '/' + url + 'index.html';\n\t\t\t\t} else {\n\t\t\t\t\tpath = '/' + url + '/index.html';\n\t\t\t\t}\n\n\t\t\t\tmime = _MIME['html'];\n\t\t\t\tinfo = _CACHE.info(path);\n\n\t\t\t\t// File mode\n\t\t\t} else {\n\n\t\t\t\tpath = '/' + url;\n\t\t\t\tinfo = _CACHE.info(path);\n\n\t\t\t}\n\n\n\t\t\tif (info !== null && info.type === 'file') {\n\n\t\t\t\tlet timestamp = headers['if-modified-since'] || null;\n\t\t\t\tif (timestamp !== null) {\n\n\t\t\t\t\tlet diff = info.mtime > new Date(timestamp);\n\t\t\t\t\tif (diff === false) {\n\n\t\t\t\t\t\tconsole.info('304 for ' + path);\n\n\t\t\t\t\t\ttunnel.send('', {\n\t\t\t\t\t\t\t'status':        '304 Not Modified',\n\t\t\t\t\t\t\t'last-modified': info.mtime.toUTCString()\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\treturn true;\n\n\t\t\t\t\t} else {\n\n\t\t\t\t\t\tconsole.warn('200 for ' + path);\n\n\t\t\t\t\t\t_CACHE.read(path, function(payload) {\n\n\t\t\t\t\t\t\tif (mime === _MIME['html']) {\n\t\t\t\t\t\t\t\tpayload = _filter_payload(path.split('/')[1], payload);\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\treturn true;\n\n\t\t\t\t\t}\n\n\t\t\t\t} else {\n\n\t\t\t\t\tconsole.warn('200 for ' + path);\n\n\t\t\t\t\t_CACHE.read(path, function(payload) {\n\n\t\t\t\t\t\tif (mime === _MIME['html']) {\n\t\t\t\t\t\t\tpayload = _filter_payload(path.split('/')[1], payload);\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\n\t\t\t\t\t});\n\n\t\t\t\t\treturn true;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"chunk": "function(payload, headers) {\n\n\t\t\tpayload = payload !== undefined     ? payload : null;\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet mime   = _MIME[url.split('.').pop()] || null;\n\n\n\t\t\tif (url.substr(0, 8) === 'https://') {\n\t\t\t\turl = url.substr(8);\n\t\t\t} else if (url.substr(0, 7) === 'http://') {\n\t\t\t\turl = url.substr(7);\n\t\t\t}\n\n\t\t\tlet i1 = url.indexOf('?');\n\t\t\tif (i1 !== -1) {\n\t\t\t\turl = url.substr(0, i1);\n\t\t\t}\n\n\t\t\t// Directory mode\n\t\t\tif (mime === null) {\n\n\t\t\t\tif (url.substr(-1) === '/') {\n\t\t\t\t\tpath = '/' + url + 'index.html';\n\t\t\t\t} else {\n\t\t\t\t\tpath = '/' + url + '/index.html';\n\t\t\t\t}\n\n\t\t\t\tmime = _MIME['html'];\n\t\t\t\tinfo = _CACHE.info(path);\n\n\t\t\t\t// File mode\n\t\t\t} else {\n\n\t\t\t\tpath = '/' + url;\n\t\t\t\tinfo = _CACHE.info(path);\n\n\t\t\t}\n\n\n\t\t\tif (info !== null && info.type === 'file') {\n\n\t\t\t\tlet timestamp = headers['if-modified-since'] || null;\n\t\t\t\tif (timestamp !== null) {\n\n\t\t\t\t\tlet diff = info.mtime > new Date(timestamp);\n\t\t\t\t\tif (diff === false) {\n\n\t\t\t\t\t\tconsole.info('304 for ' + path);\n\n\t\t\t\t\t\ttunnel.send('', {\n\t\t\t\t\t\t\t'status':        '304 Not Modified',\n\t\t\t\t\t\t\t'last-modified': info.mtime.toUTCString()\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\treturn true;\n\n\t\t\t\t\t} else {\n\n\t\t\t\t\t\tconsole.warn('200 for ' + path);\n\n\t\t\t\t\t\t_CACHE.read(path, function(payload) {\n\n\t\t\t\t\t\t\tif (mime === _MIME['html']) {\n\t\t\t\t\t\t\t\tpayload = _filter_payload(path.split('/')[1], payload);\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\treturn true;\n\n\t\t\t\t\t}\n\n\t\t\t\t} else {\n\n\t\t\t\t\tconsole.warn('200 for ' + path);\n\n\t\t\t\t\t_CACHE.read(path, function(payload) {\n\n\t\t\t\t\t\tif (mime === _MIME['html']) {\n\t\t\t\t\t\t\tpayload = _filter_payload(path.split('/')[1], payload);\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\n\t\t\t\t\t});\n\n\t\t\t\t\treturn true;\n\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
 				"type": "function",
-				"hash": "99a9b51f",
+				"hash": "7b44701a",
 				"parameters": [
 					{
-						"chunk": null,
+						"chunk": "payload !== undefined     ? payload : null",
 						"name": "payload",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					},
 					{
-						"chunk": null,
+						"chunk": "headers instanceof Object ? headers : {}",
 						"name": "headers",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					}
 				],
 				"values": [

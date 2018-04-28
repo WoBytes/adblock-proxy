@@ -130,6 +130,10 @@ lychee.define('app.net.server.FILE').tags({
 
 		receive: function(payload, headers) {
 
+			payload = payload !== undefined     ? payload : null;
+			headers = headers instanceof Object ? headers : {};
+
+
 			let info   = null;
 			let path   = null;
 			let tunnel = this.tunnel;

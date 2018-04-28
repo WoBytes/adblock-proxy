@@ -97,16 +97,7 @@
 			"values": []
 		}
 	},
-	"errors": [
-		{
-			"url": "/projects/adblock-proxy/source/net/server/API.js",
-			"rule": "no-parameter-value",
-			"reference": "receive",
-			"message": "Invalid parameter values for \"headers\" for method \"receive()\".",
-			"line": 0,
-			"column": 0
-		}
-	],
+	"errors": [],
 	"result": {
 		"constructor": {},
 		"settings": {},
@@ -149,20 +140,21 @@
 				]
 			},
 			"receive": {
-				"chunk": "function(payload, headers) {\n\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet host   = headers['host'];\n\t\t\tlet url    = headers['url'];\n\t\t\tlet method = headers['method'];\n\n\n\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\ttry {\n\t\t\t\t\tpayload = JSON.parse(payload.toString('utf8'));\n\t\t\t\t} catch (err) {\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet index = url.indexOf('/adblock/api');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 12).trim();\n\t\t\t}\n\n\n\t\t\tif (path === '/settings' && method === 'GET') {\n\n\t\t\t\t_read_settings(host, function(data) {\n\t\t\t\t\ttunnel.send(JSON.stringify(data), _get_headers(data !== null));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t} else if (path === '/settings' && method === 'POST') {\n\n\t\t\t\t_write_settings(host, payload, function(result) {\n\n\t\t\t\t\ttunnel.send(JSON.stringify({\n\t\t\t\t\t\tmessage: 'OKAY'\n\t\t\t\t\t}), _get_headers(result));\n\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"chunk": "function(payload, headers) {\n\n\t\t\tpayload = payload !== undefined     ? payload : null;\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet host   = headers['host'];\n\t\t\tlet url    = headers['url'];\n\t\t\tlet method = headers['method'];\n\n\n\t\t\tif (payload instanceof Buffer) {\n\n\t\t\t\ttry {\n\t\t\t\t\tpayload = JSON.parse(payload.toString('utf8'));\n\t\t\t\t} catch (err) {\n\t\t\t\t}\n\n\t\t\t}\n\n\n\t\t\tlet index = url.indexOf('/adblock/api');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 12).trim();\n\t\t\t}\n\n\n\t\t\tif (path === '/settings' && method === 'GET') {\n\n\t\t\t\t_read_settings(host, function(data) {\n\t\t\t\t\ttunnel.send(JSON.stringify(data), _get_headers(data !== null));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t} else if (path === '/settings' && method === 'POST') {\n\n\t\t\t\t_write_settings(host, payload, function(result) {\n\n\t\t\t\t\ttunnel.send(JSON.stringify({\n\t\t\t\t\t\tmessage: 'OKAY'\n\t\t\t\t\t}), _get_headers(result));\n\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
 				"type": "function",
-				"hash": "6a285ea0",
+				"hash": "48755f88",
 				"parameters": [
 					{
-						"chunk": "JSON.parse(payload.toString('utf8'))",
+						"chunk": "payload !== undefined     ? payload : null",
 						"name": "payload",
-						"type": "String",
-						"value": "<string>"
+						"type": "Object",
+						"value": {}
 					},
 					{
-						"chunk": null,
+						"chunk": "headers instanceof Object ? headers : {}",
 						"name": "headers",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					}
 				],
 				"values": [

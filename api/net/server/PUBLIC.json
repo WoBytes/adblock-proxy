@@ -99,9 +99,9 @@
 	"errors": [
 		{
 			"url": "/projects/adblock-proxy/source/net/server/PUBLIC.js",
-			"rule": "no-parameter-value",
-			"reference": "receive",
-			"message": "Invalid parameter values for \"payload\", \"headers\" for method \"receive()\".",
+			"rule": "unguessable-return-value",
+			"reference": "get",
+			"message": "Unguessable return value \"_PAYLOADS[path] = _replace_server(_CACHE.read(path))\" for method \"get()\".",
 			"line": 0,
 			"column": 0
 		}
@@ -172,19 +172,21 @@
 				]
 			},
 			"receive": {
-				"chunk": "function(payload, headers) {\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet mime   = _MIME[url.split('.').pop()] || _MIME['default'];\n\n\t\t\tlet index = url.indexOf('/adblock/public');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 15);\n\t\t\t\tinfo = _CACHE.info(path);\n\t\t\t}\n\n\n\t\t\tif (info !== null && info.type === 'file') {\n\n\t\t\t\t_CACHE.read(path, function(payload) {\n\t\t\t\t\tpayload = _replace_server(payload);\n\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
+				"chunk": "function(payload, headers) {\n\n\t\t\tpayload = payload !== undefined     ? payload : null;\n\t\t\theaders = headers instanceof Object ? headers : {};\n\n\n\t\t\tlet info   = null;\n\t\t\tlet path   = null;\n\t\t\tlet tunnel = this.tunnel;\n\t\t\tlet url    = headers['url'];\n\t\t\tlet mime   = _MIME[url.split('.').pop()] || _MIME['default'];\n\n\t\t\tlet index = url.indexOf('/adblock/public');\n\t\t\tif (index !== -1) {\n\t\t\t\tpath = url.substr(index + 15);\n\t\t\t\tinfo = _CACHE.info(path);\n\t\t\t}\n\n\n\t\t\tif (info !== null && info.type === 'file') {\n\n\t\t\t\t_CACHE.read(path, function(payload) {\n\t\t\t\t\tpayload = _replace_server(payload);\n\t\t\t\t\ttunnel.send(payload, _get_headers(info, mime));\n\t\t\t\t});\n\n\t\t\t\treturn true;\n\n\t\t\t}\n\n\n\t\t\treturn false;\n\n\t\t}",
 				"type": "function",
-				"hash": "4ca2059f",
+				"hash": "4585aad1",
 				"parameters": [
 					{
-						"chunk": null,
+						"chunk": "payload !== undefined     ? payload : null",
 						"name": "payload",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					},
 					{
-						"chunk": null,
+						"chunk": "headers instanceof Object ? headers : {}",
 						"name": "headers",
-						"type": "undefined"
+						"type": "Object",
+						"value": {}
 					}
 				],
 				"values": [

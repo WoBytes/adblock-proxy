@@ -1,7 +1,7 @@
 {
 	"/projects/adblock-proxy/api/data/Config.json": {
 		"identifier": "app.data.Config",
-		"timestamp": 1523695613480,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [
@@ -32,7 +32,7 @@
 	},
 	"/projects/adblock-proxy/api/data/Filter.json": {
 		"identifier": "app.data.Filter",
-		"timestamp": 1523695613480,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [
@@ -59,7 +59,7 @@
 	},
 	"/projects/adblock-proxy/api/data/Filesystem.json": {
 		"identifier": "app.data.Filesystem",
-		"timestamp": 1523695613480,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [
@@ -101,7 +101,7 @@
 	},
 	"/projects/adblock-proxy/api/net/Remote.json": {
 		"identifier": "app.net.Remote",
-		"timestamp": 1523695613480,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -118,14 +118,14 @@
 				],
 				[
 					"send",
-					"017f5424"
+					"6ceff57d"
 				]
 			]
 		}
 	},
 	"/projects/adblock-proxy/api/net/Server.json": {
 		"identifier": "app.net.Server",
-		"timestamp": 1523695613481,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -145,7 +145,7 @@
 	},
 	"/projects/adblock-proxy/api/net/server/API.json": {
 		"identifier": "app.net.server.API",
-		"timestamp": 1523695613481,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -162,14 +162,14 @@
 				],
 				[
 					"receive",
-					"6a285ea0"
+					"48755f88"
 				]
 			]
 		}
 	},
 	"/projects/adblock-proxy/api/net/server/FILE.json": {
 		"identifier": "app.net.server.FILE",
-		"timestamp": 1523695613481,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -186,14 +186,14 @@
 				],
 				[
 					"receive",
-					"99a9b51f"
+					"7b44701a"
 				]
 			]
 		}
 	},
 	"/projects/adblock-proxy/api/net/server/PUBLIC.json": {
 		"identifier": "app.net.server.PUBLIC",
-		"timestamp": 1523695613481,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -214,14 +214,14 @@
 				],
 				[
 					"receive",
-					"4ca2059f"
+					"4585aad1"
 				]
 			]
 		}
 	},
 	"/projects/adblock-proxy/api/net/server/REQUEST.json": {
 		"identifier": "app.net.server.REQUEST",
-		"timestamp": 1523695613481,
+		"timestamp": 1524927152117,
 		"knowledge": {
 			"settings": [],
 			"properties": [],
@@ -239,6 +239,30 @@
 				[
 					"receive",
 					"9249eee6"
+				]
+			]
+		}
+	},
+	"/home/cookiengineer/Software/Artificial-University/adblock-proxy/api/net/Remote.json": {
+		"identifier": "app.net.Remote",
+		"timestamp": 1524927009841,
+		"knowledge": {
+			"settings": [],
+			"properties": [],
+			"enums": [],
+			"events": [],
+			"methods": [
+				[
+					"deserialize",
+					"cf6d9c5f"
+				],
+				[
+					"serialize",
+					"33d04d23"
+				],
+				[
+					"send",
+					"017f5424"
 				]
 			]
 		}
