@@ -297,10 +297,10 @@ lychee.define('app.data.Filter').tags({
 
 	const Composite = function(data) {
 
-		let settings = Object.assign({}, data);
+		let states = Object.assign({}, data);
 
 
-		let root = settings.root || null;
+		let root = states.root || null;
 		if (root !== null) {
 
 			this.fs   = new _Filesystem({ root: _path.normalize(root) });
@@ -314,7 +314,7 @@ lychee.define('app.data.Filter').tags({
 		}
 
 
-		settings = null;
+		states = null;
 
 	};
 
@@ -329,13 +329,13 @@ lychee.define('app.data.Filter').tags({
 
 		serialize: function() {
 
-			let settings = {
+			let states = {
 				root: this.root.substr(_ROOT.length)
 			};
 
 			return {
 				'constructor': 'app.data.Filter',
-				'arguments':   [ settings ]
+				'arguments':   [ states ]
 			};
 
 		},

@@ -79,8 +79,8 @@
 	"result": {
 		"constructor": {
 			"type": "function",
-			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\tlet root = settings.root || null;\n\t\tif (root !== null) {\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\t\t} else {\n\t\t\tthis.root = _ROOT;\n\t\t}\n\n\n\t\tsettings = null;\n\n\t}",
-			"hash": "6744b405",
+			"body": "function(data) {\n\n\t\tlet states = Object.assign({}, data);\n\n\n\t\tlet root = states.root || null;\n\t\tif (root !== null) {\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\t\t} else {\n\t\t\tthis.root = _ROOT;\n\t\t}\n\n\n\t\tstates = null;\n\n\t}",
+			"hash": "6c7f3981",
 			"parameters": [
 				{
 					"chunk": null,
@@ -89,7 +89,7 @@
 				}
 			]
 		},
-		"settings": {},
+		"states": {},
 		"properties": {
 			"root": {
 				"chunk": "this.root = _path.normalize(_ROOT + _path.normalize(root));",
@@ -122,13 +122,13 @@
 				]
 			},
 			"serialize": {
-				"chunk": "function() {\n\n\t\t\tlet settings = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t};\n\n\t\t}",
+				"chunk": "function() {\n\n\t\t\tlet states = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ states ]\n\t\t\t};\n\n\t\t}",
 				"type": "function",
-				"hash": "674049c4",
+				"hash": "454bf799",
 				"parameters": [],
 				"values": [
 					{
-						"chunk": "{ 'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t}",
+						"chunk": "{ 'constructor': 'app.data.Filesystem',\n\t\t\t\t'arguments':   [ states ]\n\t\t\t}",
 						"type": "Object",
 						"value": {}
 					}

@@ -150,8 +150,8 @@
 	"result": {
 		"constructor": {
 			"type": "function",
-			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\tlet root = settings.root || null;\n\t\tif (root !== null) {\n\n\t\t\tthis.fs   = new _Filesystem({ root: _path.normalize(root) });\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\n\t\t} else {\n\n\t\t\tthis.fs   = new _Filesystem({ root: '/' });\n\t\t\tthis.root = _ROOT;\n\n\t\t}\n\n\n\t\tsettings = null;\n\n\t}",
-			"hash": "0fa62587",
+			"body": "function(data) {\n\n\t\tlet states = Object.assign({}, data);\n\n\n\t\tlet root = states.root || null;\n\t\tif (root !== null) {\n\n\t\t\tthis.fs   = new _Filesystem({ root: _path.normalize(root) });\n\t\t\tthis.root = _path.normalize(_ROOT + _path.normalize(root));\n\n\t\t} else {\n\n\t\t\tthis.fs   = new _Filesystem({ root: '/' });\n\t\t\tthis.root = _ROOT;\n\n\t\t}\n\n\n\t\tstates = null;\n\n\t}",
+			"hash": "522b6bd4",
 			"parameters": [
 				{
 					"chunk": null,
@@ -160,7 +160,7 @@
 				}
 			]
 		},
-		"settings": {},
+		"states": {},
 		"properties": {
 			"fs": {
 				"chunk": "this.fs   = new _Filesystem({ root: _path.normalize(root) });",
@@ -200,13 +200,13 @@
 				]
 			},
 			"serialize": {
-				"chunk": "function() {\n\n\t\t\tlet settings = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t};\n\n\t\t}",
+				"chunk": "function() {\n\n\t\t\tlet states = {\n\t\t\t\troot: this.root.substr(_ROOT.length)\n\t\t\t};\n\n\t\t\treturn {\n\t\t\t\t'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ states ]\n\t\t\t};\n\n\t\t}",
 				"type": "function",
-				"hash": "ec3e2711",
+				"hash": "6542b40b",
 				"parameters": [],
 				"values": [
 					{
-						"chunk": "{ 'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ settings ]\n\t\t\t}",
+						"chunk": "{ 'constructor': 'app.data.Filter',\n\t\t\t\t'arguments':   [ states ]\n\t\t\t}",
 						"type": "Object",
 						"value": {}
 					}

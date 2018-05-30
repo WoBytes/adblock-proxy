@@ -52,8 +52,8 @@
 	"result": {
 		"constructor": {
 			"type": "function",
-			"body": "function(data) {\n\n\t\tlet settings = Object.assign({}, data);\n\n\n\t\t_Tunnel.call(this, settings);\n\n\t\tsettings = null;\n\n\t}",
-			"hash": "86b0b9df",
+			"body": "function(data) {\n\n\t\tlet states = Object.assign({}, data);\n\n\n\t\t_Tunnel.call(this, states);\n\n\t\tstates = null;\n\n\t}",
+			"hash": "4aea07a6",
 			"parameters": [
 				{
 					"chunk": null,
@@ -62,7 +62,7 @@
 				}
 			]
 		},
-		"settings": {},
+		"states": {},
 		"properties": {},
 		"enums": {},
 		"events": {},
